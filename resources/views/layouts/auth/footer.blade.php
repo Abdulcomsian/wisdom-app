@@ -13,8 +13,6 @@
             responsive: true
         });
 
-        console.log("Toastr Loaded:", typeof toastr !== 'undefined');
-
         toastr.options = {
             "closeButton": true,
             "progressBar": true
