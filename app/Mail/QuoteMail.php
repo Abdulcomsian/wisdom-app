@@ -2,10 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\User;
-use App\Models\Quote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 
 class QuoteMail extends Mailable
@@ -25,6 +24,8 @@ class QuoteMail extends Mailable
 
     public function build()
     {
+        Log::info('Building quote email for user: ' . $this->user->id . ' with quote: ' . $this->quote->id);
+
         return $this->subject('Your Scheduled Quote')
                     ->view('emails.quote');
     }

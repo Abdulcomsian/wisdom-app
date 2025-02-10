@@ -10,7 +10,7 @@ class UserQuote extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['user_id', 'quote_id'];
+    protected $fillable = ['user_id', 'category_id', 'quote_id'];
 
     public function user()
     {

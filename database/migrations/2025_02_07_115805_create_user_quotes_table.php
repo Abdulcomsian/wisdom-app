@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('user_quotes', function (Blueprint $table) {
             $table->UUID('id')->primary();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->UUID('category_id')->nullable();
             $table->UUID('quote_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
             $table->timestamps();
         });

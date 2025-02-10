@@ -26,6 +26,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user->hasRole('customer')) {
+            if (!$user->subscription) {
+                return redirect()->route('show.plans');
+            }
+            return view('auth.pages.dashboard');
+        }
         return view('auth.pages.dashboard');
     }
 
