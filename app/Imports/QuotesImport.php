@@ -4,9 +4,11 @@ namespace App\Imports;
 
 use App\Models\Quote;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\Importable;
 
 class QuotesImport implements ToModel
 {
+    use Importable;
     protected $category_id;
 
     public function __construct($category_id)

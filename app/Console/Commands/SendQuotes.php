@@ -4,10 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use App\Models\Quote;
+use App\Models\Category;
 use App\Jobs\SendQuoteJob;
 use Illuminate\Console\Command;
-use App\Models\SubscriptionCategory;
 use Illuminate\Support\Facades\Log;
+use App\Models\SubscriptionCategory;
+use OpenAI;
 
 class SendQuotes extends Command
 {
@@ -33,24 +35,19 @@ class SendQuotes extends Command
             $categoryIds = SubscriptionCategory::where('subscription_id', $subscription->id)->pluck('category_id');
 
             if ($categoryIds->isEmpty()) {
-                $this->info("No categories selected for user: {$user->name}");
+                Log::info("No categories selected for user: {$user->id}");
                 continue;
             }
 
-            // Check if the user already received a quote today
-            $quoteSentToday = $user->sentQuotes()->whereDate('created_at', today())->exists();
-            if ($quoteSentToday) {
-                Log::info("Quote already sent today for user: {$user->id}, skipping.");
-                continue; // Skip this user since they already got a quote today
-            }
-
-            // Select a quote based on the subscription type
+            // Select and queue a quote based on the subscription type
             switch ($subscription->plan_type) {
                 case 'basic':
                     // Send only if 7 days have passed since the last quote
                     $lastSentQuote = $user->sentQuotes()->latest()->first();
                     if (!$lastSentQuote || $lastSentQuote->created_at->diffInDays(now()) >= 7) {
                         $this->selectAndQueueQuote($user, $categoryIds);
+                    } else {
+                        Log::info("Skipping user: {$user->id} (Basic Plan) - Last quote sent: {$lastSentQuote->created_at}");
                     }
                     break;
 
@@ -59,6 +56,8 @@ class SendQuotes extends Command
                     $scheduledDays = [1, 3, 5]; // Monday (1), Wednesday (3), Friday (5)
                     if (in_array(now()->dayOfWeek, $scheduledDays)) {
                         $this->selectAndQueueQuote($user, $categoryIds);
+                    } else {
+                        Log::info("Skipping user: {$user->id} (Standard Plan) - Not a scheduled day");
                     }
                     break;
 
@@ -77,16 +76,102 @@ class SendQuotes extends Command
      */
     private function selectAndQueueQuote(User $user, $categoryIds)
     {
-        $quote = Quote::whereIn('category_id', $categoryIds)
-            ->whereNotIn('id', $user->sentQuotes()->pluck('quote_id'))
-            ->inRandomOrder()
-            ->first();
+        foreach ($categoryIds as $categoryId) {
+            $category = Category::find($categoryId);
 
-        if ($quote) {
-            $this->queueQuoteForSending($user, $quote);
-        } else {
-            Log::info("No available quotes for user: {$user->id}");
+            if (!$category) {
+                Log::warning("Category not found for ID: {$categoryId}");
+                continue;
+            }
+
+            // Get all previously sent quote IDs
+            $previouslySentQuoteIds = $user->sentQuotes()->pluck('quote_id')->toArray();
+
+            // Get quotes based on category source
+            switch ($category->source) {
+                case 'custom':
+                    $quote = Quote::where('category_id', $category->id)
+                        ->whereNotIn('id', $previouslySentQuoteIds) // Ensure unique quote
+                        ->inRandomOrder()
+                        ->first();
+                    break;
+
+                case 'ai':
+                    $quote = $this->generateAiQuote($category);
+
+                    // Ensure AI-generated quote is unique before saving
+                    if ($quote && !in_array($quote->id, $previouslySentQuoteIds)) {
+                        $quote->save(); // Save AI quote only if it's unique
+                    } else {
+                        Log::info("Skipping AI quote for user: {$user->id}, already received before.");
+                        $quote = null;
+                    }
+                    break;
+
+                case 'both':
+                    // Try custom first
+                    $quote = Quote::where('category_id', $category->id)
+                        ->whereNotIn('id', $previouslySentQuoteIds)
+                        ->inRandomOrder()
+                        ->first();
+
+                    // If no custom quote found, generate AI
+                    if (!$quote) {
+                        $quote = $this->generateAiQuote($category);
+                    }
+
+                    // Ensure AI quote is unique
+                    if ($quote && !in_array($quote->id, $previouslySentQuoteIds)) {
+                        $quote->save();
+                    } else {
+                        Log::info("Skipping duplicate AI quote for user: {$user->id}");
+                        $quote = null;
+                    }
+                    break;
+            }
+
+            if ($quote) {
+                $this->queueQuoteForSending($user, $quote);
+            } else {
+                Log::warning("No available unique quotes for user: {$user->id} in category: {$category->id}");
+            }
         }
+    }
+
+
+    private function generateAiQuote(Category $category)
+    {
+        $apiKey = env('OPENAI_API_KEY');
+
+        try {
+            $client = OpenAI::client($apiKey);
+
+            $response = $client->chat()->create([
+                'model' => 'gpt-3.5-turbo',
+                'messages' => [
+                    ['role' => 'system', 'content' => 'You are a quote generator. Generate an inspirational quote.'],
+                    ['role' => 'user', 'content' => "Generate an inspirational quote for the category: {$category->name}."]
+                ],
+                'max_tokens' => 50,
+            ]);
+
+            if (!isset($response['choices'][0]['message']['content'])) {
+                Log::error('AI Quote generation failed: No content received.');
+                return null;
+            }
+
+            $quoteText = trim($response['choices'][0]['message']['content']);
+            Log::info('ChatGPT Generated Quote: ' . $quoteText);
+
+            return new Quote([
+                'category_id' => $category->id,
+                'quote' => $quoteText
+            ]);
+        } catch (\Exception $e) {
+            Log::error('OpenAI API Error: ' . $e->getMessage());
+        }
+
+        return null;
     }
 
     /**
@@ -94,7 +179,7 @@ class SendQuotes extends Command
      */
     private function queueQuoteForSending(User $user, Quote $quote)
     {
-        Log::info('Dispatching quote job for user: ' . $user->id . ' with quote: ' . $quote->id);
+        Log::info('Dispatching quote job for user: ' . $user->id . ' with quote: ' . $quote->id . ' of Category: ' . $quote->category_id);
 
         SendQuoteJob::dispatch($user, $quote)->delay(now()->addMinutes(rand(1, 30))); // Random delay to distribute emails
     }

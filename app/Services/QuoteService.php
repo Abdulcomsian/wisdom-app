@@ -46,24 +46,25 @@ class QuoteService
             }
 
             // Save custom quote if provided
-            if (isset($data['custom_quote'])) {
-                $exists = $this->_model::where('category_id', $id)
-                    ->where('quote', $data['custom_quote'])
-                    ->exists();
+            // if (isset($data['custom_quote'])) {
+            //     $exists = $this->_model::where('category_id', $id)
+            //         ->where('quote', $data['custom_quote'])
+            //         ->exists();
 
-                if ($exists) {
-                    return null;
-                }
+            //     if ($exists) {
+            //         return null;
+            //     }
 
-                $this->_model::create([
-                    'category_id' => $id,
-                    'quote' => $data['custom_quote'],
-                ]);
-            }
+            //     $this->_model::create([
+            //         'category_id' => $id,
+            //         'quote' => $data['custom_quote'],
+            //     ]);
+            // }
 
             DB::commit(); // Commit the transaction
             return true;
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack(); // Rollback in case of an error
             return false;
         }
