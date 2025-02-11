@@ -112,6 +112,12 @@
                                 </div>
                             </div>
                         </form>
+
+                        <div class="mt-3">
+                            <a href="{{ route('redirect.google') }}" class="btn btn-danger">
+                                <i class="mdi mdi-google"></i> Login with Google
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

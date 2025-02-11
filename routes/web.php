@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -33,6 +34,9 @@ Route::get('/clear', function () {
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
+Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('redirect.google');
+Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Auth::routes(['verify' => true, 'login' => false, 'register' => false]);
 

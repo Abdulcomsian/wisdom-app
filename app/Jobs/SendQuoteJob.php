@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\User;
 use App\Models\Quote;
 use App\Mail\QuoteMail;
-use App\Models\Category;
 use App\Models\UserQuote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -31,14 +30,11 @@ class SendQuoteJob implements ShouldQueue
 
     public function handle()
     {
-        // Logic for sending the quote via email
-        $nextQuoteDate = $this->user->nextQuoteDate(); // Determine next quote schedule
+        $nextQuoteDate = $this->user->nextQuoteDate();
 
         Mail::to($this->user->email)->send(new QuoteMail($this->quote, $this->user, $nextQuoteDate));
-        // Store sent quote in the database
         UserQuote::create([
             'user_id' => $this->user->id,
-            // 'category_id' => $this->quote->category_id,
             'quote_id' => $this->quote->id,
         ]);
     }

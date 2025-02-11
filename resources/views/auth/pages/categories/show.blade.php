@@ -17,10 +17,10 @@
             </div>
 
             <!-- Custom Quote Input (Hidden by Default) -->
-            <div class="mb-3" id="custom_quote_div" style="display: none;">
+            {{-- <div class="mb-3" id="custom_quote_div" style="display: none;">
                 <label for="custom_quote" class="form-label">Enter Custom Quote</label>
                 <textarea id="custom_quote" name="custom_quote" class="form-control" rows="3"></textarea>
-            </div>
+            </div> --}}
 
             <!-- Excel Import (Hidden by Default) -->
             <div class="mb-3" id="excel_import_div" style="display: none;">
@@ -85,10 +85,10 @@
 
             // Show input and Excel upload if "Custom" or "Custom + AI" is selected
             if (selected === "custom" || selected === "both") {
-                $("#custom_quote_div, #excel_import_div").show();
+                $("#excel_import_div").show();
                 $('#submitBtn').show();
             } else {
-                $("#custom_quote_div, #excel_import_div").hide();
+                $("#excel_import_div").hide();
                 $('#submitBtn').hide();
             }
 
