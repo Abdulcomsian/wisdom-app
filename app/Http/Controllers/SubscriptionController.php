@@ -18,7 +18,7 @@ class SubscriptionController extends Controller
     {
         $plans = Plan::latest()->get();
         $categories = Category::latest()->get();
-        return view("auth.subscription.subscription", compact("plans","categories"));
+        return view("auth.subscription.subscription", compact("plans", "categories"));
     }
 
 
@@ -77,8 +77,8 @@ class SubscriptionController extends Controller
             $subscriptionId = $checkoutSessionDetails->subscription;
             $stripePrice = number_format($checkoutSessionDetails->amount_total / 100, 2);
 
-            $planType = $plan->slug === 'basic-plan' ? 'basic' : 'standard';
-            $messagesPerWeek = $planType === 'basic' ? 1 : 3;
+            $planType = $plan->slug === 'basic-plan' ? 'basic' : ($plan->slug === 'premium-plan' ? 'premium' : 'standard');
+            $messagesPerWeek = $planType === 'basic' ? 1 : ($planType === 'premium' ? 7 : 3);
 
             $existingSubscription = Subscription::where('user_id', $user->id)->first();
 
