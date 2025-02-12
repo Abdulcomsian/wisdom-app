@@ -37,7 +37,6 @@ class QuoteController extends Controller
             $this->_service->storeCustomQuote($request->validated(), $id);
             return redirect()->back()->with('success', 'Data Saved Successfully!');
         } catch (\Throwable $th) {
-            //throw $th;
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }

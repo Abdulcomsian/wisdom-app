@@ -1,5 +1,10 @@
 <x-auth-layout pageTitle="Manage Quotes">
     <x-front.card>
+        <div class="d-flex justify-content-end">
+            <a href="{{ asset('Excel/dummy.xlsx') }}" class="btn btn-primary" download="dummy-excel-file.xlsx">
+                <i class="fas fa-download"></i> Download Dummy Excel
+            </a>
+        </div>
         <div class="d-flex justify-content-between align-items-center mb-3">
         </div>
 

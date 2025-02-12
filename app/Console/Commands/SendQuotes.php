@@ -181,6 +181,7 @@ class SendQuotes extends Command
     {
         Log::info('Dispatching quote job for user: ' . $user->id . ' with quote: ' . $quote->id . ' of Category: ' . $quote->category_id);
 
-        SendQuoteJob::dispatch($user, $quote)->delay(now()->addMinutes(rand(1, 30))); // Random delay to distribute emails
+        // SendQuoteJob::dispatch($user, $quote)->delay(now()->addMinutes(rand(1, 3))); // Random delay to distribute emails
+        (new SendQuoteJob($user, $quote))->handle();
     }
 }

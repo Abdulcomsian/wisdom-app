@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Helper\BaseQuery;
 use App\Imports\QuotesImport;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class QuoteService
@@ -33,39 +34,20 @@ class QuoteService
         DB::beginTransaction();
 
         try {
-            // Update category source type
             $type = $data['quote_type'];
             $category = Category::findOrFail($id);
             $category->source = $type;
             $category->save();
 
-            // Process Excel File if uploaded
             if (isset($data['custom_excel'])) {
                 $file = $data['custom_excel'];
-                Excel::import(new QuotesImport($id), $file);
+                Excel::queueImport(new QuotesImport($id), $file);
             }
-
-            // Save custom quote if provided
-            // if (isset($data['custom_quote'])) {
-            //     $exists = $this->_model::where('category_id', $id)
-            //         ->where('quote', $data['custom_quote'])
-            //         ->exists();
-
-            //     if ($exists) {
-            //         return null;
-            //     }
-
-            //     $this->_model::create([
-            //         'category_id' => $id,
-            //         'quote' => $data['custom_quote'],
-            //     ]);
-            // }
-
-            DB::commit(); // Commit the transaction
+            DB::commit();
             return true;
         } catch (\Exception $e) {
-            dd($e);
-            DB::rollBack(); // Rollback in case of an error
+            Log::info('Error Occured: ' . $e->getMessage());
+            DB::rollBack();
             return false;
         }
     }

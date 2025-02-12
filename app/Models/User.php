@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function subscription()
     {
-        return $this->hasOne(Subscription::class);
+        return $this->hasOne(Subscription::class)->where('stripe_status', 'paid');
     }
 
     public function sentQuotes()
