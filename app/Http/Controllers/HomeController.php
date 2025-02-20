@@ -32,7 +32,7 @@ class HomeController extends Controller
             if (!$user->subscription) {
                 return redirect()->route('show.plans');
             }
-            return view('auth.pages.dashboard');
+            return view('subscribed');
         }
         return view('auth.pages.dashboard');
     }

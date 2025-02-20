@@ -58,6 +58,10 @@ Route::group(
 
         Route::get('', [HomeController::class, 'index'])->name('auth');
 
+        Route::get('/subscribed', function () {
+            return view('subscribed');
+        })->name('subscribed');
+
         Route::get('my-profile', [UserController::class, 'editprofile'])->name('myprofile');
         Route::put('edit-my-profile', [UserController::class, 'updatemyprofile'])->name('updatemyprofile');
 
