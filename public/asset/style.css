@@ -1,0 +1,247 @@
+body {
+    font-family: "Nunito", sans-serif;
+}
+
+.background-icons img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    /* filter: drop-shadow(30px 10px 4px #4444dd); */
+}
+
+.headerBg {
+    background-image: url("/asset/images/Group 1.svg") !important;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.icon1 {
+    position: absolute;
+    top: 25%;
+    left: 9%;
+    /* filter: drop-shadow(10px 10px 1px #584f6e26); */
+    filter: drop-shadow(0 0 0.75rem #584f6e26);
+}
+
+.icon2 {
+    position: absolute;
+    top: 40%;
+    left: 3%;
+}
+
+.icon3 {
+    position: absolute;
+    top: 45%;
+    left: 12%;
+}
+
+.icon4 {
+    position: absolute;
+    top: 60%;
+    left: 6%;
+}
+
+.icon5 {
+    position: absolute;
+    top: 14%;
+    right: 9%;
+}
+
+.icon6 {
+    position: absolute;
+    top: 28%;
+    right: 4%;
+}
+
+.icon7 {
+    position: absolute;
+    top: 35%;
+    right: 13%;
+}
+
+.icon8 {
+    position: absolute;
+    top: 60%;
+    right: 10%;
+}
+
+.icon9 {
+    position: absolute;
+    top: 80%;
+    right: 7%;
+}
+
+.answer {
+    display: none;
+}
+
+@font-face {
+    font-family: dm-serif-regular;
+    src: url("/asset/fonts/DMSerifDisplay-Regular.ttf");
+}
+
+@font-face {
+    font-family: cabinet-grotesk;
+    src: url("/asset/fonts/CabinetGrotesk-Variable.ttf");
+}
+
+@font-face {
+    font-family: cabinet-grotesk;
+    src: url("/asset/fonts/CabinetGrotesk-Regular.otf");
+}
+
+@font-face {
+    font-family: Sf-pro-md;
+    src: url("/asset/fonts/SFPRODISPLAYMEDIUM.OTF");
+}
+
+@font-face {
+    font-family: sf-pro-regular;
+    src: url("/asset/fonts/SFPRODISPLAYREGULAR.OTF");
+}
+
+@font-face {
+    font-family: urbanist;
+    src: url("/asset/fonts/Urbanist-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: inter;
+    src: url("/asset/fonts/Inter_18pt-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: manrope;
+    src: url("/asset/fonts/Manrope-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: inter-regular;
+    src: url("/asset/fonts/Inter_18pt-Regular.ttf");
+}
+
+@font-face {
+    font-family: Open-sans;
+    src: url("/asset/fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: jost;
+    src: url("/asset/fonts/Jost-Regular.ttf");
+}
+
+.bg-white-wrapper {
+    background-color: #ffffff;
+    background-image: url("img_tree.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+.bn-para {
+    font-family: dm-serif-regular;
+}
+
+.bn-headings {
+    font-family: cabinet-grotesk;
+}
+
+.cabinet-grotesk {
+    font-family: cabinet-grotesk;
+}
+
+.chk-para {
+    font-family: Sf-pro-md;
+}
+
+.urbanist {
+    font-family: urbanist;
+}
+
+.inter {
+    font-family: inter;
+}
+
+.manrope {
+    font-family: manrope;
+}
+
+.inter-regular {
+    font-family: inter-regular;
+}
+
+.Open-sans {
+    font-family: Open-sans;
+}
+
+.sf-pro-regular {
+    font-family: sf-pro-regular;
+}
+
+.jost {
+    font-family: jost;
+}
+
+
+/* --------------Carousel */
+/* @keyframes carouselAnim {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(calc(-100% + (6 * 300px)));
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .container .carousel-items {
+      animation: carouselAnim 60s infinite alternate linear;
+    }
+    @keyframes carouselAnim {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(calc(-100% + (5 * 300px)));
+      }
+    }
+  } */
+.carousel-focus {
+    width: 320px;
+    height: 190px;
+}
+
+@media screen and (min-width: 1550px) {
+    .carousel-focus {
+        width: 444px;
+        height: 234px;
+    }
+}
+
+/* ================= */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * 7));
+    }
+}
+
+.slide-track {
+    animation: scroll 40s linear infinite;
+}
+
+.carousel-focus:hover {
+    transition: all 0.8s;
+    transform: scale(1.05);
+}
+
+
+/* --------------Carousel */
