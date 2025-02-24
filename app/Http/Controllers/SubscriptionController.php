@@ -5,133 +5,162 @@ namespace App\Http\Controllers;
 use Stripe\Stripe;
 use App\Models\Plan;
 use App\Models\User;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
+use Stripe\Customer;
+use Illuminate\Http\Request;
+use Stripe\PaymentMethod;
 use App\Models\CheckoutSession;
+use App\Models\UserPlanCategory;
 use Laravel\Cashier\Subscription;
 use App\Models\SubscriptionCategory;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
-    public function showSubscriptionForm()
+    public function showSubscriptionForm(Request $request)
     {
-        $plans = Plan::latest()->get();
-        $categories = Category::latest()->get();
-        return view("auth.subscription.subscription", compact("plans", "categories"));
-    }
+        $user = Auth::user();
 
+        $userPlanCategory = UserPlanCategory::where('user_id', $user->id)->first();
+
+        if (!$userPlanCategory) {
+            return redirect()->route('home')->with('error', 'No plan or categories selected.');
+        }
+
+        $categories = json_decode($userPlanCategory->categories);
+
+        $plan = Plan::find($userPlanCategory->plan_id);
+
+        return view('auth.subscription.subscription', [
+            'user' => $user,
+            'plan' => $plan,
+            'categories' => $categories,
+        ]);
+    }
 
     public function subscribe(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
+        $user = auth()->user();
         $plan = Plan::findOrFail($request->plan_id);
-        $userId = auth()->id();
 
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price' => $plan->stripe_plan,
-                'quantity' => 1,
-            ]],
-            'mode' => 'subscription',
-            'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'metadata' => [
-                'price_id' => $plan->stripe_plan,
-                'categories' => json_encode($request->categories),
-            ],
-            'cancel_url' => route('subscription.cancel'),
+        if (!$user->stripe_customer_id) {
+            $customer = Customer::create([
+                'email' => $user->email,
+                'name' => $user->first_name . ' ' . $user->last_name,
+            ]);
+
+            $user->stripe_customer_id = $customer->id;
+            $user->save();
+        } else {
+            $customer = Customer::retrieve($user->stripe_customer_id);
+        }
+
+        $paymentMethod = PaymentMethod::retrieve($request->payment_method_id);
+        $paymentMethod->attach(['customer' => $customer->id]);
+
+        Customer::update($customer->id, [
+            'invoice_settings' => ['default_payment_method' => $paymentMethod->id],
         ]);
 
-        CheckoutSession::create([
-            'session_id' => $session->id,
-            'user_id' => $userId,
-            'plan_id' => $plan->id,
-            'categories' => json_encode($request->categories),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        try {
+            $subscription = \Stripe\Subscription::create([
+                'customer' => $customer->id,
+                'items' => [[
+                    'price' => $plan->stripe_plan,
+                ]],
+                'default_payment_method' => $paymentMethod->id,
+                'expand' => ['latest_invoice.payment_intent'],
+            ]);
 
-        return redirect($session->url);
+            if ($subscription->latest_invoice->payment_intent->status === 'requires_action') {
+                return response()->json([
+                    'requires_action' => true,
+                    'payment_intent_client_secret' => $subscription->latest_invoice->payment_intent->client_secret,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'subscription_id' => $subscription->id,
+                'status' => $subscription->status,
+                'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret ?? null,
+                'redirect_url' => route('subscription.success', ['subscription_id' => $subscription->id]),
+            ]);
+        } catch (\Stripe\Exception\CardException $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 400);
+        }
     }
 
 
     public function success(Request $request)
     {
         try {
-            $sessionId = $request->session_id;
+            $subscriptionId = $request->subscription_id;
 
-            $checkoutSession = CheckoutSession::where('session_id', $sessionId)->first();
-
-            if (!$checkoutSession) {
-                return response()->json(["success" => false, "msg" => "Session not found", "status" => 404], 404);
+            if (!$subscriptionId) {
+                return redirect()->route('welcome')->with('error', 'Subscription ID missing.');
             }
 
-            $user = User::findOrFail($checkoutSession->user_id);
-            $plan = Plan::findOrFail($checkoutSession->plan_id);
-
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-            $checkoutSessionDetails = $stripe->checkout->sessions->retrieve($sessionId, []);
+            $subscription = $stripe->subscriptions->retrieve($subscriptionId, ['expand' => ['latest_invoice.payment_intent']]);
 
-            $subscriptionId = $checkoutSessionDetails->subscription;
-            $stripePrice = number_format($checkoutSessionDetails->amount_total / 100, 2);
+            if ($subscription->latest_invoice->payment_intent->status !== 'succeeded') {
+                return redirect()->route('welcome')->with('error', 'Payment not completed.');
+            }
 
-            $planType = $plan->slug === 'basic-plan' ? 'basic' : ($plan->slug === 'premium-plan' ? 'premium' : 'standard');
-            $messagesPerWeek = $planType === 'basic' ? 1 : ($planType === 'premium' ? 7 : 3);
+            $user = auth()->user();
+            $plan = Plan::where('stripe_plan', $subscription->items->data[0]->price->id)->first();
+
+            if (!$plan) {
+                return redirect()->route('welcome')->with('error', 'Plan not found.');
+            }
+
+            $planType = match ($plan->slug) {
+                'basic-plan' => 'basic',
+                'premium-plan' => 'premium',
+                default => 'standard',
+            };
+
+            $messagesPerWeek = match ($plan->slug) {
+                'basic-plan' => 1,
+                'premium-plan' => 7,
+                default => 3,
+            };
 
             $existingSubscription = Subscription::where('user_id', $user->id)->first();
 
-            $duration = match ($plan->slug) {
-                'basic-plan' => now()->addDay(),
-                'standard-plan' => now()->addMonth(),
-                default => now()->addYear(),
-            };
-
             if ($existingSubscription) {
                 $existingSubscription->update([
-                    'stripe_status' => $checkoutSessionDetails->payment_status,
-                    'stripe_price' => $stripePrice,
-                    'trial_ends_at' => $duration,
-                    'ends_at' => $duration,
+                    'stripe_status' => $subscription->status,
+                    'stripe_price' => $subscription->items->data[0]->price->unit_amount / 100,
+                    'trial_ends_at' => now()->addMonth(),
+                    'ends_at' => now()->addMonth(),
                     'plan_type' => $planType,
                     'messages_per_week' => $messagesPerWeek,
                 ]);
             } else {
-                $existingSubscription = Subscription::create([
+                Subscription::create([
                     'user_id' => $user->id,
-                    'type' => $checkoutSessionDetails->mode,
-                    'stripe_id' => $subscriptionId,
-                    'stripe_status' => $checkoutSessionDetails->payment_status,
-                    'stripe_price' => $stripePrice,
+                    'type' => $subscription->items->data[0]->price->type,
+                    'stripe_id' => $subscription->id,
+                    'stripe_status' => $subscription->status,
+                    'stripe_price' => $subscription->items->data[0]->price->unit_amount / 100,
                     'quantity' => 1,
-                    'trial_ends_at' => $duration,
-                    'ends_at' => $duration,
+                    'trial_ends_at' => now()->addMonth(),
+                    'ends_at' => now()->addMonth(),
                     'plan_type' => $planType,
                     'messages_per_week' => $messagesPerWeek,
                 ]);
             }
 
-            // Store selected categories
-            $categories = json_decode($checkoutSession->categories, true);
-            if (!empty($categories)) {
-                foreach ($categories as $categoryId) {
-                    SubscriptionCategory::create([
-                        'subscription_id' => $existingSubscription->id,
-                        'category_id' => $categoryId,
-                    ]);
-                }
-            }
-
-            return redirect('/dashboard')->with('success', 'Subscription created or updated successfully!');
+            return redirect()->route('subscribed')->with('success', 'Subscription successful!');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'msg' => 'Something went wrong',
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'status' => 400,
-            ], 400);
+            return redirect()->route('welcome')->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
 }

@@ -32,7 +32,8 @@ class UserSeeder extends Seeder
         $role->givePermissionTo(Permission::all());
 
         $user1 = new User;
-        $user1->name = 'Admin';
+        $user1->first_name = 'Admin';
+        $user1->last_name = 'User';
         $user1->username = 'admin';
         $user1->phone_no = '+923069282622';
         $user1->email = 'admin@gmail.com';
@@ -42,7 +43,8 @@ class UserSeeder extends Seeder
         $user1->assignRole('admin');
 
         $user2 = new User;
-        $user2->name = 'customer';
+        $user2->first_name = 'Customer';
+        $user2->last_name = 'Customer';
         $user2->username = 'customer';
         $user2->phone_no = '+923069282623';
         $user2->email = 'customer@gmail.com';

@@ -30,7 +30,7 @@ class GoogleLoginController extends Controller
 
         if ($user->hasRole('customer')) {
             if (!$user->subscription) {
-                return redirect()->route('show.plans');
+                return redirect()->route('payment.form');
             }
             return redirect()->route('auth');
         }

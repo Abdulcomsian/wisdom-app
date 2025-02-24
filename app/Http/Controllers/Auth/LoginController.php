@@ -117,7 +117,7 @@ class LoginController extends Controller
     {
         if($user->hasRole('customer')) {
             if (!$user->subscription) {
-                return redirect()->route('show.plans');
+                return redirect()->route('welcome');
             }
             return redirect()->route('auth');
         }
