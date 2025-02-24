@@ -24,7 +24,7 @@ class CheckSubscription
             ->exists();
         if (!$activeSubscription) {
             session()->flash('message', 'Your subscription has ended. Please renew to continue.');
-            return redirect()->route('show.plans');
+            return redirect()->route('payment.form');
         }
 
         return $next($request);

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Models\UserPlanCategory;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -41,41 +45,53 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(Request $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'phone_no' => ['required', 'string', 'min:10', 'max:15', 'regex:/^\+?[0-9\s\-\(\)]*$/'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone_no' => 'required|string|min:10|max:15|regex:/^\+?[0-9\s\-\(\)]*$/',
+            'password' => 'required|string|min:8|confirmed',
+            'plan_id' => 'required|exists:plans,id',
+            'categories' => 'nullable|array',
+            'categories.*' => 'exists:categories,id',
         ]);
-    }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        // Create the user
         $user = User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'phone_no' => $data['phone_no'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_no' => $request->phone_no,
+            'password' => Hash::make($request->password),
         ]);
 
+        // Assign role and save subscription
         $user->assignRole('customer');
 
-        return $user;
+        Auth::login($user);
+
+        event(new Registered($user));
+
+        UserPlanCategory::create([
+            'user_id' => $user->id,
+            'plan_id' => $request->plan_id,
+            'categories' => json_encode($request->categories),
+        ]);
+
+        // Redirect to payment form
+        return response()->json([
+            'success' => true,
+            'redirect_url' => route('payment.form', [
+                'plan_id' => $request->plan_id,
+                'categories' => json_encode($request->categories)
+            ]),
+        ]);
     }
 }

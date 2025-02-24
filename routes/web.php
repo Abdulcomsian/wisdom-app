@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FrontentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,11 @@ Route::get('/clear', function () {
     return "Cleared";
 });
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+Route::get('/', [FrontentController::class, 'home'])->name('welcome');
 
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('redirect.google');
 Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -51,7 +54,7 @@ Route::post('/user/signup', [RegisterController::class, 'register']);
 Route::group(
     ['prefix' => "/dashboard/", "middleware" => ["auth", 'verified']],
     function () {
-        Route::get('/subscribe', [SubscriptionController::class, 'showSubscriptionForm'])->name('show.plans');
+        Route::get('/subscribe', [SubscriptionController::class, 'showSubscriptionForm'])->name('payment.form');
         Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
         Route::get('subscription/success', [SubscriptionController::class, 'success'])->name('subscription.success');
         Route::get('subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');

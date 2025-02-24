@@ -37,7 +37,7 @@ class VerificationController extends Controller
         }
 
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('subscribe')->with('message', 'Email already verified.');
+            return redirect()->route('payment.form')->with('message', 'Email already verified.');
         }
 
         if ($request->user()->markEmailAsVerified()) {
@@ -48,7 +48,7 @@ class VerificationController extends Controller
             return $response;
         }
 
-        return redirect()->route('subscribe')->with('message', 'Email successfully verified. Please subscribe.');
+        return redirect()->route('payment.form')->with('message', 'Email successfully verified. Please subscribe.');
     }
 
     /**

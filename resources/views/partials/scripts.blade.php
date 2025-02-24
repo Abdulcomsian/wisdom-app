@@ -1,3 +1,4 @@
+
 <script>
     document.querySelector(".fa-eye").addEventListener("click", function() {
         let passwordInput = document.getElementById("password");
