@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
-    public function showSubscriptionForm(Request $request)
+    public function showSubscriptionForm()
     {
         $user = Auth::user();
 
@@ -143,8 +143,9 @@ class SubscriptionController extends Controller
                     'plan_type' => $planType,
                     'messages_per_week' => $messagesPerWeek,
                 ]);
+                $subscriptionRecord = $existingSubscription;
             } else {
-                Subscription::create([
+                $subscriptionRecord = Subscription::create([
                     'user_id' => $user->id,
                     'type' => $subscription->items->data[0]->price->type,
                     'stripe_id' => $subscription->id,
@@ -156,6 +157,19 @@ class SubscriptionController extends Controller
                     'plan_type' => $planType,
                     'messages_per_week' => $messagesPerWeek,
                 ]);
+            }
+
+            $userPlanCategory = UserPlanCategory::where('user_id', $user->id)->first();
+            $categories = $userPlanCategory ? json_decode($userPlanCategory->categories, true) : [];
+
+            // Save categories in SubscriptionCategory
+            if (!empty($categories)) {
+                foreach ($categories as $categoryId) {
+                    SubscriptionCategory::create([
+                        'subscription_id' => $subscriptionRecord->id,
+                        'category_id' => $categoryId,
+                    ]);
+                }
             }
 
             return redirect()->route('subscribed')->with('success', 'Subscription successful!');

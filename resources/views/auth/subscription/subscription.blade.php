@@ -22,65 +22,57 @@
                 class="sf-pro-regular tracking-wide text-center lg:text-left text-[#3A3A3A] text-[16px] font-semibold mb-6 italic 2xl:text-[20px]">
                 Provide your payment info to begin the free trial.
             </p>
-            {{-- <form id="payment-form">
-                @csrf
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        Card Number
-                    </label>
-                    <div id="card-element" class="w-full px-3 py-2 border border-[#3A3A3A] rounded placeholder-[#3A3A3A]"></div>
-                </div>
-                <div class="flex space-x-4 mb-4">
-                    <div class="w-1/2">
-                        <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                            Expiration Date
-                        </label>
-                        <input class="w-full px-3 py-2 border border-[#3A3A3A] rounded placeholder-[#3A3A3A]" placeholder="MM/YY" type="text" />
-                    </div>
-                    <div class="w-1/2">
-                        <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                            CVV
-                        </label>
-                        <input class="w-full px-3 py-2 border border-[#3A3A3A] rounded placeholder-[#3A3A3A]" placeholder="123" type="text" />
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        Country
-                    </label>
-                    <input class="w-full px-3 py-2 border border-[#3A3A3A] rounded placeholder-[#3A3A3A]" placeholder="USA" type="text" />
-                </div>
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        ZIP Code
-                    </label>
-                    <input class="w-full px-3 py-2 border border-[#3A3A3A] rounded placeholder-[#3A3A3A]" placeholder="1234" type="text" />
-                </div>
-                <p class="sf-pro-regular w-[95%] text-[#3A3A3A] tracking-wider text-sm mb-6 2xl:text-[20px] italic font-normal 2xl:leading-[23px]">
-                    By providing your card information, you will allow daily (--) to charge your card for future payments in accordance with their terms.
-                </p>
-                <button id="submit-button" class="sf-pro-regular w-full bg-[#3A3A3A] text-white py-2 rounded font-bold 2xl:font-extrabold">
-                    Begin Free Trial
-                </button>
-                <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
-            </form> --}}
-
             <form id="payment-form">
                 @csrf
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px]">Card Details</label>
-                    <div id="card-element" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
-                    <div id="card-errors" class="text-red-500 mt-2"></div>
-                </div>
                 <input type="hidden" name="plan_id" value="{{ $plan->id }}">
 
                 @foreach ($categories as $category)
                     <input type="hidden" name="categories[]" value="{{ $category }}">
                 @endforeach
 
+                <div class="mb-4">
+                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                        Card Number
+                    </label>
+                    <div id="card-number" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                </div>
+
+                <div class="flex space-x-4 mb-4">
+                    <div class="w-1/2">
+                        <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                            Expiration Date
+                        </label>
+                        <div id="card-expiry" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                    </div>
+                    <div class="w-1/2">
+                        <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                            CVV
+                        </label>
+                        <div id="card-cvc" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                        Country
+                    </label>
+                    <input id="billing-country" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="US"
+                        type="text" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                        ZIP Code
+                    </label>
+                    <input id="billing-zip" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="12345"
+                        type="number" />
+                </div>
+
                 <button id="submit-button" class="w-full bg-[#3A3A3A] text-white py-2 rounded font-bold">
                     Begin Free Trial
                 </button>
+
+                <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
             </form>
         </main>
         <div class="background-icons hidden md:block">
@@ -559,17 +551,47 @@
         </div>
     </header>
 
-    <script src="https://js.stripe.com/v3/"></script>
+@endsection
+@push('scripts')
     <script>
         var stripe = Stripe("{{ env('STRIPE_KEY') }}");
         var elements = stripe.elements();
-        var card = elements.create('card');
-        card.mount('#card-element');
+
+        // Create individual elements
+        var cardNumber = elements.create('cardNumber', {
+            style: {
+                base: {
+                    fontSize: '16px'
+                }
+            }
+        });
+        var cardExpiry = elements.create('cardExpiry', {
+            style: {
+                base: {
+                    fontSize: '16px'
+                }
+            }
+        });
+        var cardCvc = elements.create('cardCvc', {
+            style: {
+                base: {
+                    fontSize: '16px'
+                }
+            }
+        });
+
+        // Mount elements to their respective divs
+        cardNumber.mount('#card-number');
+        cardExpiry.mount('#card-expiry');
+        cardCvc.mount('#card-cvc');
 
         var form = document.getElementById('payment-form');
         var submitButton = document.getElementById('submit-button');
 
         form.addEventListener('submit', async function(event) {
+            showLoader();
+            this.disabled = true;
+
             event.preventDefault();
             submitButton.disabled = true;
 
@@ -578,10 +600,18 @@
                 error
             } = await stripe.createPaymentMethod({
                 type: 'card',
-                card: card,
+                card: cardNumber, // Only the card number element is passed here
+                billing_details: {
+                    address: {
+                        postal_code: document.getElementById('billing-zip').value,
+                        country: document.getElementById('billing-country').value,
+                    }
+                }
             });
 
             if (error) {
+                hideLoader();
+                this.disabled = false;
                 document.getElementById('card-errors').textContent = error.message;
                 submitButton.disabled = false;
                 return;
@@ -607,14 +637,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.requires_action) {
-                        // Handle 3D Secure or other actions
                         stripe.handleCardAction(data.payment_intent_client_secret)
                             .then(function(result) {
                                 if (result.error) {
-                                    alert(result.error.message);
+                                    toastr.error(result.error.message, 'Error');
                                     submitButton.disabled = false;
                                 } else {
-                                    // Retry subscription creation after action is complete
                                     fetch("{{ route('subscribe') }}", {
                                             method: "POST",
                                             headers: {
@@ -632,7 +660,10 @@
                                             if (data.success) {
                                                 window.location.href = data.redirect_url;
                                             } else {
-                                                alert("Error creating subscription!");
+                                                hideLoader();
+                                                this.disabled = false;
+                                                toastr.error('Error creating subscription!',
+                                                    'Error');
                                                 submitButton.disabled = false;
                                             }
                                         });
@@ -641,14 +672,18 @@
                     } else if (data.success) {
                         window.location.href = data.redirect_url;
                     } else {
-                        alert("Error creating subscription!");
+                        hideLoader();
+                        this.disabled = false;
+                        toastr.error('Error creating subscription!', 'Error');
                         submitButton.disabled = false;
                     }
                 })
                 .catch(error => {
-                    console.error("Error:", error);
+                    hideLoader();
+                    this.disabled = false;
+                    toastr.error('Error creating subscription!', 'Error');
                     submitButton.disabled = false;
                 });
         });
     </script>
-@endsection
+@endpush

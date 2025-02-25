@@ -7,11 +7,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FrontentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\FrontentController;
+use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::post('/user/signin', [LoginController::class, 'login']);
 
 Route::get('/user/signup', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/user/signup', [RegisterController::class, 'register']);
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
 
 Route::group(
     ['prefix' => "/dashboard/", "middleware" => ["auth", 'verified']],

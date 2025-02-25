@@ -1,4 +1,6 @@
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     document.querySelector(".fa-eye").addEventListener("click", function() {
         let passwordInput = document.getElementById("password");
@@ -13,5 +15,13 @@
         }
     });
 </script>
-@yield('script')
-@yield('script-bottom')
+
+<script>
+    function showLoader() {
+        document.getElementById('loader').classList.remove('hidden');
+    }
+
+    function hideLoader() {
+        document.getElementById('loader').classList.add('hidden');
+    }
+</script>

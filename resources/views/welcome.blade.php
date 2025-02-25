@@ -1059,7 +1059,7 @@
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
                         <p class="text-[14px] md:text-[16px]">
                             <!-- You can share your questions or feedback through our contact
-                                                form or customer support email. -->
+                                                    form or customer support email. -->
                             "Please email us"
                         </p>
                     </div>
@@ -1201,40 +1201,37 @@
         </footer>
     </div>
 @endsection
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@push('scripts')
 <script>
     $(document).ready(function() {
         let maxCategories = 0;
 
-        // Handle plan selection
         $('.select-plan').on('click', function() {
             const planId = $(this).data('plan-id');
             maxCategories = $(this).data('max-categories');
 
-            // Convert "unlimited" to a high number
             if (maxCategories === 'unlimited') {
                 maxCategories = Infinity;
             }
 
-            // Update hidden plan_id field
             $('#plan_id').val(planId);
 
-            // Enable category checkboxes and reset previous selections
             $('.category-checkbox').prop('disabled', false).prop('checked', false);
         });
 
-        // Handle category selection limit
         $('.category-checkbox').on('change', function() {
             const checkedCount = $('.category-checkbox:checked').length;
 
             if (checkedCount > maxCategories) {
-                alert(`You can select up to ${maxCategories} categories for this plan.`);
+                toastr.success(`You can select up to ${maxCategories} categories for this plan.`, 'Success');
                 $(this).prop('checked', false);
             }
         });
 
-        // Handle form submission via AJAX
         $('#registrationForm').on('submit', function(e) {
+            showLoader();
+            this.disabled = true;
+
             e.preventDefault();
 
             const formData = $(this).serialize();
@@ -1245,17 +1242,22 @@
                 data: formData,
                 success: function(response) {
                     if (response.success) {
-                        alert('Registration successful!');
+                        toastr.success('Registration successful!', 'Success');
                         window.location.href = response
-                        .redirect_url; // Redirect to payment form
+                            .redirect_url;
                     } else {
-                        alert('Registration failed. Please check your inputs.');
+                        hideLoader();
+                        this.disabled = false;
+                        toastr.error('Registration failed. Please check your inputs.', 'Error');
                     }
                 },
                 error: function(xhr) {
-                    alert('An error occurred. Please try again.');
+                    hideLoader();
+                    this.disabled = false;
+                    toastr.error('An error occurred. Please try again.', 'Error');
                 }
             });
         });
     });
 </script>
+@endpush
