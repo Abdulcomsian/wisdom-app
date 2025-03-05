@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Stripe\Stripe;
 use App\Models\Plan;
-use App\Models\User;
-use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Illuminate\Http\Request;
 use Stripe\PaymentMethod;
-use App\Models\CheckoutSession;
 use App\Models\UserPlanCategory;
 use Laravel\Cashier\Subscription;
 use App\Models\SubscriptionCategory;
@@ -24,7 +21,7 @@ class SubscriptionController extends Controller
         $userPlanCategory = UserPlanCategory::where('user_id', $user->id)->first();
 
         if (!$userPlanCategory) {
-            return redirect()->route('home')->with('error', 'No plan or categories selected.');
+            return redirect()->route('auth')->with('error', 'No plan or categories selected.');
         }
 
         $categories = json_decode($userPlanCategory->categories);
@@ -172,7 +169,7 @@ class SubscriptionController extends Controller
                 }
             }
 
-            return redirect()->route('subscribed')->with('success', 'Subscription successful!');
+            return redirect()->route('auth')->with('success', 'Subscription successful!');
         } catch (\Exception $e) {
             return redirect()->route('welcome')->with('error', 'Something went wrong: ' . $e->getMessage());
         }

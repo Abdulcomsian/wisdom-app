@@ -116,9 +116,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if($user->hasRole('customer')) {
-            if (!$user->subscription) {
-                return redirect()->route('welcome');
-            }
+            // if (!$user->subscription) {
+            //     return redirect()->route('welcome');
+            // }
             return redirect()->route('auth');
         }
 

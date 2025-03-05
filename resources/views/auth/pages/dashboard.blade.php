@@ -1,12 +1,8 @@
-<x-auth-layout pageTitle="Dashboard">
-
-    @hasrole('admin')
+@hasrole('customer')
+    <x-user.pages.dashboard />
+@endhasrole
+@hasrole('admin')
+    <x-auth-layout pageTitle="Dashboard">
         <x-admin.pages.dashboard />
-    @endhasrole
-
-    @hasrole('customer')
-        {{-- <x-user.pages.dashboard /> --}}
-        <h1>User</h1>
-    @endhasrole
-
-</x-auth-layout>
+    </x-auth-layout>
+@endhasrole

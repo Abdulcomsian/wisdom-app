@@ -60,6 +60,7 @@
                 <span class="mx-8 text-[#3A3A3A]"> Or </span>
                 <hr class="w-1/3 border-[#3A3A3A]" />
             </div>
+            <a href="{{ route('redirect.google') }}">
             <button
                 class="w-full bg-[#FFFFFF]e text-[#3A3A3A] border border-[#3A3A3A] py-2 rounded-md flex items-center justify-center Open-sans">
                 <div class="mr-2">
@@ -79,6 +80,7 @@
 
                 Sign in with Google
             </button>
+        </a>
         </div>
         <p class="text-center text-[10px] lg:text-[12px] text-gray-600 mt-6 sf-pro-regular">
             ©2025, All rights reserved

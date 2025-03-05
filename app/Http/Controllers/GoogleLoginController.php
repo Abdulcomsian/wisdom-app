@@ -20,19 +20,13 @@ class GoogleLoginController extends Controller
         $googleUser = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $googleUser->email)->first();
         if (!$user) {
-            $user = User::create(['name' => $googleUser->name,  'email' => $googleUser->email, 'email_verified_at' => now(), 'password' => Hash::make(rand(00000, 99999))]);
+            $user = User::create(['first_name' => $googleUser->name, 'last_name' => $googleUser->name,  'email' => $googleUser->email, 'email_verified_at' => now(), 'password' => Hash::make(rand(00000, 99999))]);
         }
         $user->assignRole('customer');
 
         Auth::login($user);
 
         $user = Auth::user();
-
-        if ($user->hasRole('customer')) {
-            if (!$user->subscription) {
-                return redirect()->route('payment.form');
-            }
-            return redirect()->route('auth');
-        }
+        return redirect()->route('auth');
     }
 }

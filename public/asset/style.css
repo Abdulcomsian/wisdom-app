@@ -136,6 +136,11 @@ body {
     src: url("/asset/fonts/Jost-Regular.ttf");
 }
 
+@font-face {
+    font-family: CabinetGrotesk-800;
+    src: url("/asset/fonts/CabinetGrotesk-Extrabold.otf");
+}
+
 .bg-white-wrapper {
     background-color: #ffffff;
     background-image: url("img_tree.png");
@@ -185,6 +190,10 @@ body {
 
 .jost {
     font-family: jost;
+}
+
+.CabinetGrotesk-800 {
+    font-family: CabinetGrotesk-800;
 }
 
 
