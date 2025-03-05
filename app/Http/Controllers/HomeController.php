@@ -29,10 +29,11 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('customer')) {
-            if (!$user->subscription) {
-                return redirect()->route('payment.form');
-            }
-            return view('subscribed');
+            // if (!$user->subscription) {
+            //     return redirect()->route('payment.form');
+            // }
+            // return view('subscribed');
+            return view('auth.pages.dashboard');
         }
         return view('auth.pages.dashboard');
     }

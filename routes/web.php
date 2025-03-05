@@ -12,7 +12,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\User\ManageSubscriptionController;
+use App\Http\Controllers\User\ManageCategoryController;
+use App\Http\Controllers\User\ManagePlanController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\User\UnSubscribeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +36,6 @@ Route::get('/clear', function () {
     Artisan::call('view:clear');
     return "Cleared";
 });
-
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('welcome');
 
 Route::get('/', [FrontentController::class, 'home'])->name('welcome');
 
@@ -63,6 +63,22 @@ Route::group(
 
         Route::get('', [HomeController::class, 'index'])->name('auth');
 
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::prefix('manage_plans')->name('manage_plans.')->controller(ManagePlanController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+            Route::prefix('manage_subscriptions')->name('manage_subscriptions.')->controller(ManageSubscriptionController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/store', 'store')->name('store');
+            });
+            Route::prefix('manage_categories')->name('manage_categories.')->controller(ManageCategoryController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+            Route::prefix('unsubscribe')->name('unsubscribe.')->controller(UnSubscribeController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::delete('/destroy', 'destroy')->name('destroy');
+            });
+        });
         Route::get('/subscribed', function () {
             return view('subscribed');
         })->name('subscribed');

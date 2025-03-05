@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -119,8 +120,33 @@ class UserController extends Controller
      */
     public function updatemyprofile(UserRequest $request)
     {
-        $this->_service->update(Auth::id(), $request->validated());
-        return redirect()->route('myprofile');
+        // $this->_service->update(Auth::id(), $request->validated());
+        // return redirect()->route('myprofile');
+
+        $user = Auth::user();
+
+        $validatedData = $request->validated();
+
+        // If password is provided, update it
+        if (!empty($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        } else {
+            unset($validatedData['password']); // Don't update password if empty
+        }
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            if ($user->avatar) {
+                $this->deleteImage($user->avatar);
+            }
+            $imagePath = $this->uploadImage($request->file('image'), 'avatars/');
+            $validatedData['avatar'] = $imagePath;
+        }
+
+        $user->update($validatedData);
+
+        return redirect()->route('auth')->with('success', 'Profile updated successfully.');
+
     }
 
     /**

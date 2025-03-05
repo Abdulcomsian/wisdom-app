@@ -1,10 +1,6 @@
-<!-- Content Row -->
-<div class="row">
+@extends('layouts.user.app')
+@section('title', 'Dashboard')
+@section('header', 'Dashboard')
+@section('content')
 
-    <div class="col-xl-12 col-md-12 mb-4">
-        <x-front.card>
-            This is user dashboard
-        </x-front.card>
-    </div>
-
-</div>
+@endsection

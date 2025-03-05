@@ -551,139 +551,139 @@
         </div>
     </header>
 
-@endsection
-@push('scripts')
-    <script>
-        var stripe = Stripe("{{ env('STRIPE_KEY') }}");
-        var elements = stripe.elements();
+    @endsection
+    @push('scripts')
+        <script>
+            var stripe = Stripe("{{ env('STRIPE_KEY') }}");
+            var elements = stripe.elements();
 
-        // Create individual elements
-        var cardNumber = elements.create('cardNumber', {
-            style: {
-                base: {
-                    fontSize: '16px'
+            // Create individual elements
+            var cardNumber = elements.create('cardNumber', {
+                style: {
+                    base: {
+                        fontSize: '16px'
+                    }
                 }
-            }
-        });
-        var cardExpiry = elements.create('cardExpiry', {
-            style: {
-                base: {
-                    fontSize: '16px'
+            });
+            var cardExpiry = elements.create('cardExpiry', {
+                style: {
+                    base: {
+                        fontSize: '16px'
+                    }
                 }
-            }
-        });
-        var cardCvc = elements.create('cardCvc', {
-            style: {
-                base: {
-                    fontSize: '16px'
-                }
-            }
-        });
-
-        // Mount elements to their respective divs
-        cardNumber.mount('#card-number');
-        cardExpiry.mount('#card-expiry');
-        cardCvc.mount('#card-cvc');
-
-        var form = document.getElementById('payment-form');
-        var submitButton = document.getElementById('submit-button');
-
-        form.addEventListener('submit', async function(event) {
-            showLoader();
-            this.disabled = true;
-
-            event.preventDefault();
-            submitButton.disabled = true;
-
-            const {
-                paymentMethod,
-                error
-            } = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardNumber, // Only the card number element is passed here
-                billing_details: {
-                    address: {
-                        postal_code: document.getElementById('billing-zip').value,
-                        country: document.getElementById('billing-country').value,
+            });
+            var cardCvc = elements.create('cardCvc', {
+                style: {
+                    base: {
+                        fontSize: '16px'
                     }
                 }
             });
 
-            if (error) {
-                hideLoader();
-                this.disabled = false;
-                document.getElementById('card-errors').textContent = error.message;
-                submitButton.disabled = false;
-                return;
-            }
+            // Mount elements to their respective divs
+            cardNumber.mount('#card-number');
+            cardExpiry.mount('#card-expiry');
+            cardCvc.mount('#card-cvc');
 
-            var formData = new FormData(form);
-            var plan_id = formData.get("plan_id");
-            var categories = JSON.stringify([...document.querySelectorAll("input[name='categories[]']")].map(
-                input => input.value));
+            var form = document.getElementById('payment-form');
+            var submitButton = document.getElementById('submit-button');
 
-            fetch("{{ route('subscribe') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({
-                        plan_id: plan_id,
-                        categories: JSON.parse(categories),
-                        payment_method_id: paymentMethod.id,
+            form.addEventListener('submit', async function(event) {
+                showLoader();
+                this.disabled = true;
+
+                event.preventDefault();
+                submitButton.disabled = true;
+
+                const {
+                    paymentMethod,
+                    error
+                } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardNumber, // Only the card number element is passed here
+                    billing_details: {
+                        address: {
+                            postal_code: document.getElementById('billing-zip').value,
+                            country: document.getElementById('billing-country').value,
+                        }
+                    }
+                });
+
+                if (error) {
+                    hideLoader();
+                    this.disabled = false;
+                    document.getElementById('card-errors').textContent = error.message;
+                    submitButton.disabled = false;
+                    return;
+                }
+
+                var formData = new FormData(form);
+                var plan_id = formData.get("plan_id");
+                var categories = JSON.stringify([...document.querySelectorAll("input[name='categories[]']")].map(
+                    input => input.value));
+
+                fetch("{{ route('subscribe') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            plan_id: plan_id,
+                            categories: JSON.parse(categories),
+                            payment_method_id: paymentMethod.id,
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.requires_action) {
-                        stripe.handleCardAction(data.payment_intent_client_secret)
-                            .then(function(result) {
-                                if (result.error) {
-                                    toastr.error(result.error.message, 'Error');
-                                    submitButton.disabled = false;
-                                } else {
-                                    fetch("{{ route('subscribe') }}", {
-                                            method: "POST",
-                                            headers: {
-                                                "Content-Type": "application/json",
-                                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                                            },
-                                            body: JSON.stringify({
-                                                plan_id: plan_id,
-                                                categories: JSON.parse(categories),
-                                                payment_method_id: paymentMethod.id,
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.requires_action) {
+                            stripe.handleCardAction(data.payment_intent_client_secret)
+                                .then(function(result) {
+                                    if (result.error) {
+                                        toastr.error(result.error.message, 'Error');
+                                        submitButton.disabled = false;
+                                    } else {
+                                        fetch("{{ route('subscribe') }}", {
+                                                method: "POST",
+                                                headers: {
+                                                    "Content-Type": "application/json",
+                                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                                },
+                                                body: JSON.stringify({
+                                                    plan_id: plan_id,
+                                                    categories: JSON.parse(categories),
+                                                    payment_method_id: paymentMethod.id,
+                                                })
                                             })
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                window.location.href = data.redirect_url;
-                                            } else {
-                                                hideLoader();
-                                                this.disabled = false;
-                                                toastr.error('Error creating subscription!',
-                                                    'Error');
-                                                submitButton.disabled = false;
-                                            }
-                                        });
-                                }
-                            });
-                    } else if (data.success) {
-                        window.location.href = data.redirect_url;
-                    } else {
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    window.location.href = data.redirect_url;
+                                                } else {
+                                                    hideLoader();
+                                                    this.disabled = false;
+                                                    toastr.error('Error creating subscription!',
+                                                        'Error');
+                                                    submitButton.disabled = false;
+                                                }
+                                            });
+                                    }
+                                });
+                        } else if (data.success) {
+                            window.location.href = data.redirect_url;
+                        } else {
+                            hideLoader();
+                            this.disabled = false;
+                            toastr.error('Error creating subscription!', 'Error');
+                            submitButton.disabled = false;
+                        }
+                    })
+                    .catch(error => {
                         hideLoader();
                         this.disabled = false;
                         toastr.error('Error creating subscription!', 'Error');
                         submitButton.disabled = false;
-                    }
-                })
-                .catch(error => {
-                    hideLoader();
-                    this.disabled = false;
-                    toastr.error('Error creating subscription!', 'Error');
-                    submitButton.disabled = false;
-                });
-        });
-    </script>
-@endpush
+                    });
+            });
+        </script>
+    @endpush
