@@ -41,7 +41,7 @@
                     </h1>
 
                     <div
-                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#3A3A3A] md:pl-12">
+                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4  inter text-[#3A3A3A] md:pl-12">
                         @foreach ($categories as $category)
                             <label class="flex items-center space-x-2">
                                 <input type="checkbox" name="categories[]" value="{{ $category->id }}"
@@ -51,11 +51,10 @@
                         @endforeach
                     </div>
                 </div>
-
-                <form class="max-w-sm md:w-full mx-6 md:mx-auto mt-[41px] sf-pro-regular font-normal">
+                <form class=" max-w-sm  mx-auto mt-[41px] sf-pro-regular font-normal">
                     <div>
                         <button
-                            class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full mt-3 2xl:text-xl 2xl:py-3">
+                            class="bg-gray-800 text-white py-2 px-4 font-bold w-1/3 rounded-lg mt-3 2xl:text-xl 2xl:py-3">
                             Update
                         </button>
                     </div>

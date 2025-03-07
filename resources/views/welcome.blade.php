@@ -651,12 +651,15 @@
                         <label for="phone" class="block text-lg font-medium mb-1">Phone Number</label>
                         <div class="flex items-center space-x-2">
                             <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                                <select id="countryCode" class="bg-white px-3 py-2 text-sm border-r">
-                                    <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
-                                <option value="+52" data-flag="🇲🇽" selected>🇲🇽 +52</option>
-                                <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
-                                <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
-                                </select>
+                                {{-- <select id="countryCode" class="bg-white px-3 py-2 text-sm border-r">
+                                    @foreach ($formattedCountries as $country)
+                                        <option value="{{ $country['code'] }}" data-flag="{{ $country['flag'] }}">
+                                            {{ $country['flag'] }} {{ $country['code'] }}
+                                        </option>
+                                    @endforeach
+                                </select> --}}
+
+                                <select id="countryCode" name="country_code" class="bg-white py-2 text-sm border-r"></select>
                             </div>
                             <input id="phone" name="phone_no" type="text" placeholder="1234567890"
                                 class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
@@ -1029,7 +1032,7 @@
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
                         <p class="text-[14px] md:text-[16px]">
                             <!-- You can share your questions or feedback through our contact
-                                                            form or customer support email. -->
+                                                                form or customer support email. -->
                             "Please email us"
                         </p>
                     </div>
@@ -1173,6 +1176,30 @@
 @endsection
 @push('scripts')
     <script>
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            let countrySelect = document.getElementById("countryCode");
+
+            data.forEach(country => {
+                if (country.idd && country.idd.root && country.cca2) {
+                    let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
+
+                    let flagEmoji = [...country.cca2.toUpperCase()]
+                        .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+                        .join('');
+
+                    let option = document.createElement("option");
+                    option.value = dialCode;
+                    option.textContent = `${flagEmoji} ${dialCode}`;
+
+                    countrySelect.appendChild(option);
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching country data:", error));
+
+
         document.querySelectorAll(".faq-item").forEach((item) => {
             item.addEventListener("click", () => {
                 const answer = item.querySelector(".answer");

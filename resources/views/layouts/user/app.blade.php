@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link href="/fonts/cabinet-grotesk.css" rel="stylesheet" />
+    <link href="{{ asset('asset/fonts/CabinetGrotesk-Extrabold.otf') }}" rel="stylesheet" />
     @include('layouts.user.head-css')
     @stack('page-css')
     <script src="https://cdn.tailwindcss.com"></script>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Plan;
+use App\Models\Category;
+use Illuminate\Support\Facades\Http;
 
 class FrontentController extends Controller
 {
@@ -11,6 +12,7 @@ class FrontentController extends Controller
     {
         $categories = Category::all();
         $plans = Plan::all();
-        return view('welcome', compact('categories','plans'));
+
+        return view('welcome', compact('categories', 'plans'));
     }
 }

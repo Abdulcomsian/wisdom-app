@@ -24,11 +24,13 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required', 'string'],
-            'id_number' => ['required', 'string'],
+            'country_code' => ['required', 'string', 'max:5'], // Validate country code
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            // 'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }
