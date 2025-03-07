@@ -1,3 +1,9 @@
+<style>
+    #countryCode {
+        min-width: 80px;
+    }
+</style>
+
 <nav class="w-[100%] bg-white flex justify-between items-center p-1">
     <div class="pl-1">
         <a href="test.html">
@@ -38,7 +44,8 @@
             <!-- Clickable Username -->
             <div class="flex flex-col">
                 <div id="profileToggle" class="flex items-center cursor-pointer">
-                    <span class="text-base text-[#151D48] font-medium">John Doe</span>
+                    <span
+                        class="text-base text-[#151D48] font-medium">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</span>
                     <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
                         xmlns="http://www.w3.org/2000/svg" class="ml-2">
                         <path d="M4.00244 6.0415L8.00244 10.0415L12.0024 6.0415" stroke="#151D48" stroke-linecap="round"
@@ -62,7 +69,8 @@
             </div>
 
             <!-- Modal Body -->
-            <form id="updateProfileForm" method="POST" action="{{ route('updatemyprofile') }}" enctype="multipart/form-data">
+            <form id="updateProfileForm" method="POST" action="{{ route('updatemyprofile') }}"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -90,11 +98,11 @@
                                     </p>
                                 </div>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <button type="button" id="deleteAvatar" class="bg-[#F3C941] text-white py-2 px-4 rounded-md ml-2 hover:bg-gray-300">
                                     Delete
                                 </button>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -112,8 +120,15 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                            <input class="w-full border border-gray-300 rounded-md py-2 px-3" type="text"
-                                name="phone" value="{{ auth()->user()->phone }}" />
+                            <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                <select id="countryCode" name="country_code"
+                                    class="bg-white py-2 px-3 text-sm border-r outline-none">
+                                    <!-- Dynamic country codes will be populated here -->
+                                </select>
+                                <input class="flex-1 border-0 py-2 px-3 text-sm outline-none" type="text"
+                                    name="phone" placeholder="Enter phone number"
+                                    value="{{ auth()->user()->phone_no }}" />
+                            </div>
                         </div>
 
                         <div>
@@ -170,7 +185,8 @@
     <a class="flex items-center" href="#">
         <div class="profileSec flex items-center gap-4">
             <div class="profileImg bg-gray-300 w-[48px] h-[48px] rounded-full overflow-hidden">
-                <img src="{{ asset('asset/images/userImg.png') }}" alt="" class="object-cover w-full h-full" />
+                <img src="{{ asset('asset/images/userImg.png') }}" alt=""
+                    class="object-cover w-full h-full" />
             </div>
             <div class="flex flex-col">
                 <div class="flex items-center cursor-pointer">
@@ -189,17 +205,39 @@
 </header>
 
 <script>
-    document.getElementById('file-upload').addEventListener('change', function (event) {
-    let file = event.target.files[0];
-    if (file) {
-        document.getElementById('file-name').textContent = file.name;
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            let countrySelect = document.getElementById("countryCode");
 
-        let reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById('avatarPreview').src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
+            data.forEach(country => {
+                if (country.idd && country.idd.root && country.cca2) {
+                    let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
 
+                    let flagEmoji = [...country.cca2.toUpperCase()]
+                        .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+                        .join('');
+
+                    let option = document.createElement("option");
+                    option.value = dialCode;
+                    option.textContent = `${flagEmoji} ${dialCode}`;
+
+                    countrySelect.appendChild(option);
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching country data:", error));
+
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+        let file = event.target.files[0];
+        if (file) {
+            document.getElementById('file-name').textContent = file.name;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>

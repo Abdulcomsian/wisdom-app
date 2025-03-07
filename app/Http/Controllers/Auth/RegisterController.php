@@ -51,6 +51,7 @@ class RegisterController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'country_code' => ['required', 'string', 'max:5'], // Validate country code
             'phone_no' => 'required|string|min:10|max:15|regex:/^\+?[0-9\s\-\(\)]*$/',
             'password' => 'required|string|min:8|confirmed',
             'plan_id' => 'required|exists:plans,id',
@@ -62,12 +63,15 @@ class RegisterController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
+        // Concatenate country code with phone number
+        $fullPhoneNumber = $request->country_code . $request->phone_no;
+
         // Create the user
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone_no' => $request->phone_no,
+            'phone_no' => $fullPhoneNumber, // Save concatenated number
             'password' => Hash::make($request->password),
         ]);
 

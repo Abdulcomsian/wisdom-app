@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -118,20 +119,16 @@ class UserController extends Controller
      * @param Request Validation $validation
      * @return \Illuminate\Http\Response
      */
-    public function updatemyprofile(UserRequest $request)
+    public function updatemyprofile(Request $request)
     {
-        // $this->_service->update(Auth::id(), $request->validated());
-        // return redirect()->route('myprofile');
-
         $user = Auth::user();
 
-        $validatedData = $request->validated();
+        $validatedData = $request->all();
 
-        // If password is provided, update it
         if (!empty($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {
-            unset($validatedData['password']); // Don't update password if empty
+            unset($validatedData['password']);
         }
 
         // Handle image upload
@@ -143,10 +140,17 @@ class UserController extends Controller
             $validatedData['avatar'] = $imagePath;
         }
 
+        // Combine country code with phone number before saving
+        // if (!empty($validatedData['country_code']) && !empty($validatedData['phone'])) {
+        //     $validatedData['phone'] = $validatedData['country_code'] . $validatedData['phone'];
+        // }
+
+        // Remove country_code from validatedData as it's not a database column
+        // unset($validatedData['country_code']);
+
         $user->update($validatedData);
 
         return redirect()->route('auth')->with('success', 'Profile updated successfully.');
-
     }
 
     /**
