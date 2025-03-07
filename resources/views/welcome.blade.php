@@ -681,7 +681,7 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <button type="submit"
+                    <button type="button"
                         class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full md:w-1/2 lg:w-1/3 mx-auto mt-3 2xl:text-xl 2xl:py-3">
                         Sign Up
                     </button>
