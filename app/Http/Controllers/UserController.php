@@ -132,13 +132,13 @@ class UserController extends Controller
         }
 
         // Handle image upload
-        if ($request->hasFile('image')) {
-            if ($user->avatar) {
-                $this->deleteImage($user->avatar);
-            }
-            $imagePath = $this->uploadImage($request->file('image'), 'avatars/');
-            $validatedData['avatar'] = $imagePath;
-        }
+        // if ($request->hasFile('image')) {
+        //     if ($user->avatar) {
+        //         $this->deleteImage($user->avatar);
+        //     }
+        //     $imagePath = $this->uploadImage($request->file('image'), 'avatars/');
+        //     $validatedData['avatar'] = $imagePath;
+        // }
 
         // Combine country code with phone number before saving
         // if (!empty($validatedData['country_code']) && !empty($validatedData['phone'])) {
