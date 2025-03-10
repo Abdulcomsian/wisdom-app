@@ -562,133 +562,126 @@
             </div>
         </div>
     </header>
-    <form id="registrationForm" action="{{ route('register') }}" method="post">
-        @csrf
-        <input type="hidden" name="plan_id" id="plan_id" value=""> <!-- Hidden field for selected plan ID -->
-        <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] py-[40px] md:px-[80px]">
-            <div class="container mx-auto p-4 text-center">
-                <h1
-                    class="bn-headings leading-[60px] text-5xl font-[800] text-[#3A3A3A] mb-2 2xl:text-[88px] 2xl:leading-[90px] 2xl:font-extrabold CabinetGrotesk-800">
-                    Sign Up
-                </h1>
-                <p class="bn-para text-lg text-[#3A3A3A] 2xl:text-[24px] 2xl:leading-[32.9px] 2xl:mt-6">
-                    Free 7-Day Trial
-                </p>
-                <p class="bn-para text-sm text-[#3A3A3A] 2xl:text-[20px] 2xl:leading-[27.42px]">
-                    (Cancel At Any Time By Replying "Unsubscribe" To The Messages)
-                </p>
-
-                <!-- Plan Selection -->
-                <div class="flex flex-col md:flex-row justify-center gap-[20px] my-8 2xl:gap-[30px]">
-                    @foreach ($plans as $plan)
-                        <div
-                            class="sf-pro-regular bg-white rounded-lg p-6 shadow-md mb-4 md:mb-0 md:w-1/4 md:text-left chk-para 2xl:p-12 2xl:w-[410px] 2xl:h-[281px]">
-                            <h2 class="sf-pro-regular text-4xl font-bold text-[#3A3A3A] xl:leading-[71px] 2xl:text-[60px]">
-                                ${{ number_format($plan->price, 2) }}
-                            </h2>
-                            <p
-                                class="sf-pro-regular text-sm text-[#3A3A3A] xl:leading-[23px] 2xl:text-[20px] 2xl:mt-6 font-semibold">
-                                @if ($plan->slug == 'basic-plan')
-                                    One text a week<br />Can select up to 2 categories.
-                                @elseif($plan->slug == 'standard-plan')
-                                    Three texts a week<br />Can select up to 8 Categories.
-                                @elseif($plan->slug == 'premium-plan')
-                                    Text Daily<br />Select any categories
-                                @endif
-                            </p>
-                            <button type="button"
-                                class="bg-[#FFC400] text-[#3A3A3A] font-semibold py-2 px-4 rounded mt-4 w-full 2xl:mt-6 select-plan"
-                                data-plan-id="{{ $plan->id }}"
-                                data-max-categories="{{ $plan->slug == 'basic-plan' ? 2 : ($plan->slug == 'standard-plan' ? 8 : 'unlimited') }}">
-                                Select
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-
-                <!-- Category Selection -->
-                <div>
+        <form id="registrationForm" action="{{ route('register') }}" method="post">
+            @csrf
+            <input type="hidden" name="plan_id" id="plan_id" value=""> <!-- Hidden field for selected plan ID -->
+            <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] py-[40px] md:px-[80px]">
+                <div class="container mx-auto p-4 text-center">
                     <h1
-                        class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-9 mb-12 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
-                        "Select Daily Messages"
+                        class="bn-headings leading-[60px] text-5xl font-[800] text-[#3A3A3A] mb-2 2xl:text-[88px] 2xl:leading-[90px] 2xl:font-extrabold CabinetGrotesk-800">
+                        Sign Up
                     </h1>
-                    <div
-                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#3A3A3A]">
-                        @foreach ($categories as $category)
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                    class="form-checkbox h-5 w-5 text-gray-800 category-checkbox" disabled>
-                                <span class="text-sm md:text-lg font-medium 2xl:text-[25px]">{{ $category->name }}</span>
-                            </label>
+                    <p class="bn-para text-lg text-[#3A3A3A] 2xl:text-[24px] 2xl:leading-[32.9px] 2xl:mt-6">
+                        Free 7-Day Trial
+                    </p>
+                    <p class="bn-para text-sm text-[#3A3A3A] 2xl:text-[20px] 2xl:leading-[27.42px]">
+                        (Cancel At Any Time By Replying "Unsubscribe" To The Messages)
+                    </p>
+
+                    <!-- Plan Selection -->
+                    <div class="flex flex-col md:flex-row justify-center gap-[20px] my-8 2xl:gap-[30px]">
+                        @foreach ($plans as $plan)
+                            <div
+                                class="sf-pro-regular bg-white rounded-lg p-6 shadow-md mb-4 md:mb-0 md:w-1/4 md:text-left chk-para 2xl:p-12 2xl:w-[410px] 2xl:h-[281px]">
+                                <h2 class="sf-pro-regular text-4xl font-bold text-[#3A3A3A] xl:leading-[71px] 2xl:text-[60px]">
+                                    ${{ number_format($plan->price, 2) }}
+                                </h2>
+                                <p
+                                    class="sf-pro-regular text-sm text-[#3A3A3A] xl:leading-[23px] 2xl:text-[20px] 2xl:mt-6 font-semibold">
+                                    @if ($plan->slug == 'basic-plan')
+                                        One text a week<br />Can select up to 2 categories.
+                                    @elseif($plan->slug == 'standard-plan')
+                                        Three texts a week<br />Can select up to 8 Categories.
+                                    @elseif($plan->slug == 'premium-plan')
+                                        Text Daily<br />Select any categories
+                                    @endif
+                                </p>
+                                <button type="button"
+                                    class="bg-[#FFC400] text-[#3A3A3A] font-semibold py-2 px-4 rounded mt-4 w-full 2xl:mt-6 select-plan"
+                                    data-plan-id="{{ $plan->id }}"
+                                    data-max-categories="{{ $plan->slug == 'basic-plan' ? 2 : ($plan->slug == 'standard-plan' ? 8 : 'unlimited') }}">
+                                    Select
+                                </button>
+                            </div>
                         @endforeach
                     </div>
-                </div>
-            </div>
 
-            <div class="max-w-2xl w-[90%] md:w-full mx-6 md:mx-auto mt-[41px] sf-pro-regular font-normal">
-                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                    <div class="w-full md:w-1/2">
-                        <label for="first_name" class="block text-lg font-medium mb-1">First Name</label>
-                        <input type="text" name="first_name" id="firstName" placeholder="John"
-                            class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                            required>
-                    </div>
-                    <div class="w-full md:w-1/2">
-                        <label for="last_name" class="block text-lg font-medium mb-1">Last Name</label>
-                        <input type="text" name="last_name" id="lastName" placeholder="Doe"
-                            class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                            required>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                    <div class="w-full md:w-1/2">
-                        <label for="email" class="block text-lg font-medium mb-1">Email Address</label>
-                        <input type="email" name="email" id="email" placeholder="Name@gmail.com"
-                            class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                            required>
-                    </div>
-                    <div class="w-full md:w-1/2">
-                        <label for="phone" class="block text-lg font-medium mb-1">Phone Number</label>
-                        <div class="flex items-center space-x-2">
-                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                                {{-- <select id="countryCode" class="bg-white px-3 py-2 text-sm border-r">
-                                    @foreach ($formattedCountries as $country)
-                                        <option value="{{ $country['code'] }}" data-flag="{{ $country['flag'] }}">
-                                            {{ $country['flag'] }} {{ $country['code'] }}
-                                        </option>
-                                    @endforeach
-                                </select> --}}
-
-                                <select id="countryCode" name="country_code" class="bg-white py-2 text-sm border-r"></select>
-                            </div>
-                            <input id="phone" name="phone_no" type="text" placeholder="1234567890"
-                                class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
+                    <!-- Category Selection -->
+                    <div>
+                        <h1
+                            class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-9 mb-12 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
+                            "Select Daily Messages"
+                        </h1>
+                        <div
+                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#3A3A3A]">
+                            @foreach ($categories as $category)
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                        class="form-checkbox h-5 w-5 text-gray-800 category-checkbox" disabled>
+                                    <span class="text-sm md:text-lg font-medium 2xl:text-[25px]">{{ $category->name }}</span>
+                                </label>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                    <div class="w-full md:w-1/2">
-                        <label for="password" class="block text-lg font-medium mb-1">Password</label>
-                        <input type="password" name="password" id="password" placeholder="********"
-                            class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                            required>
+
+                <div class="max-w-2xl w-[90%] md:w-full mx-6 md:mx-auto mt-[41px] sf-pro-regular font-normal">
+                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                        <div class="w-full md:w-1/2">
+                            <label for="first_name" class="block text-lg font-medium mb-1">First Name</label>
+                            <input type="text" name="first_name" id="firstName" placeholder="John"
+                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                required>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <label for="last_name" class="block text-lg font-medium mb-1">Last Name</label>
+                            <input type="text" name="last_name" id="lastName" placeholder="Doe"
+                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                required>
+                        </div>
                     </div>
-                    <div class="w-full md:w-1/2">
-                        <label for="confirm_password" class="block text-lg font-medium mb-1">Confirm Password</label>
-                        <input type="password" name="password_confirmation" id="confirmPassword" placeholder="********"
-                            class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                            required>
+                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                        <div class="w-full md:w-1/2">
+                            <label for="email" class="block text-lg font-medium mb-1">Email Address</label>
+                            <input type="email" name="email" id="email" placeholder="Name@gmail.com"
+                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                required>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <label for="phone" class="block text-lg font-medium mb-1">Phone Number</label>
+                            <div class="flex items-center space-x-2">
+                                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+
+                                    <select id="countryCode" name="country_code" class="bg-white py-2 text-sm border-r"></select>
+                                </div>
+                                <input id="phone" name="phone_no" type="text" placeholder="1234567890"
+                                    class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="flex justify-center">
-                    <button type="button"
-                        class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full md:w-1/2 lg:w-1/3 mx-auto mt-3 2xl:text-xl 2xl:py-3">
-                        Sign Up
-                    </button>
+                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                        <div class="w-full md:w-1/2">
+                            <label for="password" class="block text-lg font-medium mb-1">Password</label>
+                            <input type="password" name="password" id="password" placeholder="********"
+                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                required>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <label for="confirm_password" class="block text-lg font-medium mb-1">Confirm Password</label>
+                            <input type="password" name="password_confirmation" id="confirmPassword" placeholder="********"
+                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                required>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit"
+                            class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full md:w-1/2 lg:w-1/3 mx-auto mt-3 2xl:text-xl 2xl:py-3">
+                            Sign Up
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
     <div class="bg-white">
         <div class="flex flex-col items-center justify-center mt-[60px] mb-[20px]">
@@ -1173,111 +1166,112 @@
             </div>
         </footer>
     </div>
-@endsection
-@push('scripts')
-    <script>
-    fetch("https://restcountries.com/v3.1/all")
-        .then(response => response.json())
-        .then(data => {
-            let countrySelect = document.getElementById("countryCode");
+    @push('scripts')
+        <script>
+        fetch("https://restcountries.com/v3.1/all")
+            .then(response => response.json())
+            .then(data => {
+                let countrySelect = document.getElementById("countryCode");
 
-            data.forEach(country => {
-                if (country.idd && country.idd.root && country.cca2) {
-                    let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
+                data.forEach(country => {
+                    if (country.idd && country.idd.root && country.cca2) {
+                        let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
 
-                    let flagEmoji = [...country.cca2.toUpperCase()]
-                        .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
-                        .join('');
+                        let flagEmoji = [...country.cca2.toUpperCase()]
+                            .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+                            .join('');
 
-                    let option = document.createElement("option");
-                    option.value = dialCode;
-                    option.textContent = `${flagEmoji} ${dialCode}`;
+                        let option = document.createElement("option");
+                        option.value = dialCode;
+                        option.textContent = `${flagEmoji} ${dialCode}`;
 
-                    countrySelect.appendChild(option);
-                }
-            });
-        })
-        .catch(error => console.error("Error fetching country data:", error));
+                        countrySelect.appendChild(option);
+                    }
+                });
+            })
+            .catch(error => console.error("Error fetching country data:", error));
 
 
-        document.querySelectorAll(".faq-item").forEach((item) => {
-            item.addEventListener("click", () => {
-                const answer = item.querySelector(".answer");
-                const icon = item.querySelector(".fas");
-                if (answer.style.display === "none" || answer.style.display === "") {
-                    answer.style.display = "block";
-                    icon.classList.remove("fa-plus");
-                    icon.classList.add("fa-minus");
-                } else {
-                    answer.style.display = "none";
-                    icon.classList.remove("fa-minus");
-                    icon.classList.add("fa-plus");
-                }
-            });
-        });
-
-        document.getElementById("countryCode").addEventListener("change", function() {
-            const selectedOption = this.options[this.selectedIndex];
-            console.log("Selected country code:", selectedOption.value);
-        });
-
-        $(document).ready(function() {
-            let maxCategories = 0;
-
-            $('.select-plan').on('click', function() {
-                const planId = $(this).data('plan-id');
-                maxCategories = $(this).data('max-categories');
-
-                if (maxCategories === 'unlimited') {
-                    maxCategories = Infinity;
-                }
-
-                $('#plan_id').val(planId);
-
-                $('.category-checkbox').prop('disabled', false).prop('checked', false);
-            });
-
-            $('.category-checkbox').on('change', function() {
-                const checkedCount = $('.category-checkbox:checked').length;
-
-                if (checkedCount > maxCategories) {
-                    toastr.error(`You can select up to ${maxCategories} categories for this plan.`,
-                        'Success');
-                    $(this).prop('checked', false);
-                }
-            });
-
-            $('#registrationForm').on('submit', function(e) {
-                showLoader();
-                this.disabled = true;
-
-                e.preventDefault();
-
-                const formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success('Registration successful!', 'Success');
-                            window.location.href = response
-                                .redirect_url;
-                        } else {
-                            hideLoader();
-                            this.disabled = false;
-                            toastr.error('Registration failed. Please check your inputs.',
-                                'Error');
-                        }
-                    },
-                    error: function(xhr) {
-                        hideLoader();
-                        this.disabled = false;
-                        toastr.error('An error occurred. Please try again.', 'Error');
+            document.querySelectorAll(".faq-item").forEach((item) => {
+                item.addEventListener("click", () => {
+                    const answer = item.querySelector(".answer");
+                    const icon = item.querySelector(".fas");
+                    if (answer.style.display === "none" || answer.style.display === "") {
+                        answer.style.display = "block";
+                        icon.classList.remove("fa-plus");
+                        icon.classList.add("fa-minus");
+                    } else {
+                        answer.style.display = "none";
+                        icon.classList.remove("fa-minus");
+                        icon.classList.add("fa-plus");
                     }
                 });
             });
-        });
-    </script>
-@endpush
+
+            document.getElementById("countryCode").addEventListener("change", function() {
+                const selectedOption = this.options[this.selectedIndex];
+            });
+
+            $(document).ready(function() {
+                let maxCategories = 0;
+
+                $('.select-plan').on('click', function() {
+                    const planId = $(this).data('plan-id');
+                    maxCategories = $(this).data('max-categories');
+
+                    if (maxCategories === 'unlimited') {
+                        maxCategories = Infinity;
+                    }
+
+                    $('#plan_id').val(planId);
+
+                    $('.category-checkbox').prop('disabled', false).prop('checked', false);
+                });
+
+                $('.category-checkbox').on('change', function() {
+                    const checkedCount = $('.category-checkbox:checked').length;
+
+                    if (checkedCount > maxCategories) {
+                        toastr.error(`You can select up to ${maxCategories} categories for this plan.`,
+                            'Success');
+                        $(this).prop('checked', false);
+                    }
+                });
+
+                $('#registrationForm').on('submit', function(e) {
+                    console.log('submitting');
+
+                    showLoader();
+                    this.disabled = true;
+
+                    e.preventDefault();
+
+                    const formData = $(this).serialize();
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            if (response.success) {
+                                toastr.success('Registration successful!', 'Success');
+                                window.location.href = response
+                                    .redirect_url;
+                            } else {
+                                hideLoader();
+                                this.disabled = false;
+                                toastr.error('Registration failed. Please check your inputs.',
+                                    'Error');
+                            }
+                        },
+                        error: function(xhr) {
+                            hideLoader();
+                            this.disabled = false;
+                            toastr.error('An error occurred. Please try again.', 'Error');
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
+@endsection
