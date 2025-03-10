@@ -64,14 +64,15 @@ class RegisterController extends Controller
         }
 
         // Concatenate country code with phone number
-        $fullPhoneNumber = $request->country_code . $request->phone_no;
+        // $fullPhoneNumber = $request->country_code . $request->phone_no;
 
         // Create the user
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone_no' => $fullPhoneNumber, // Save concatenated number
+            'country_code' => $request->country_code,
+            'phone_no' => $request->phone_no, // Save concatenated number
             'password' => Hash::make($request->password),
         ]);
 

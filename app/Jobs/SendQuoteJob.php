@@ -55,11 +55,13 @@ class SendQuoteJob implements ShouldQueue
             // Initialize API instance
             $apiInstance = new SMSApi(new Client(), $config);
 
+            $fullPhoneNumber = $this->user->country_code . $this->user->phone_no;
+
             // Create SMS message
             $msg = new SmsMessage();
             $msg->setBody($messageContent);
-            $msg->setTo($this->user->phone_no); // Ensure phone number is available
-            $msg->setSource("laravel");
+            $msg->setTo($fullPhoneNumber); // Ensure phone number is available
+            $msg->setSource("wisdom");
 
             // Create collection of SMS messages
             $smsMessages = new SmsMessageCollection();

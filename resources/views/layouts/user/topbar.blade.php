@@ -85,7 +85,8 @@
                         <div class="flex flex-col gap-4">
                             <div class="flex">
                                 <img id="avatarPreview" alt="User avatar" class="w-20 h-20 rounded-full mr-4"
-                                    src="{{ asset(auth()->user()->avatar ?? 'asset/images/userImg.png') }}" />
+                                src="{{ auth()->user()->avatar ? Storage::url(auth()->user()->avatar) : asset('assets/images/userImg.png') }}" >
+
                                 <div class="flex-1 mt-4">
                                     <input class="hidden" id="file-upload" type="file" name="image" />
                                     <label for="file-upload"
@@ -126,7 +127,7 @@
                                     <!-- Dynamic country codes will be populated here -->
                                 </select>
                                 <input class="flex-1 border-0 py-2 px-3 text-sm outline-none" type="text"
-                                    name="phone" placeholder="Enter phone number"
+                                    name="phone_no" placeholder="Enter phone number"
                                     value="{{ auth()->user()->phone_no }}" />
                             </div>
                         </div>
@@ -205,15 +206,17 @@
 </header>
 
 <script>
+       document.addEventListener("DOMContentLoaded", function () {
+    const countryCode = "{{ auth()->user()->country_code ?? '' }}"; // Get saved country code from the database
+    console.log("countryCode",countryCode);
+    const countrySelect = document.getElementById("countryCode");
+
     fetch("https://restcountries.com/v3.1/all")
         .then(response => response.json())
         .then(data => {
-            let countrySelect = document.getElementById("countryCode");
-
             data.forEach(country => {
                 if (country.idd && country.idd.root && country.cca2) {
                     let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
-
                     let flagEmoji = [...country.cca2.toUpperCase()]
                         .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
                         .join('');
@@ -222,11 +225,17 @@
                     option.value = dialCode;
                     option.textContent = `${flagEmoji} ${dialCode}`;
 
+                    if (dialCode === countryCode) {
+                        option.selected = true; // Preselect the saved country code
+                    }
+
                     countrySelect.appendChild(option);
                 }
             });
         })
         .catch(error => console.error("Error fetching country data:", error));
+});
+
 
     document.getElementById('file-upload').addEventListener('change', function(event) {
         let file = event.target.files[0];

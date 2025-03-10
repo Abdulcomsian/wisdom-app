@@ -11,9 +11,6 @@
                 <button id="openUnsubscribeModal" class="bg-[#F3C941] text-white px-4 py-2 rounded hover:bg-red-600">
                     Unsubscribe
                 </button>
-                <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                    <a href="dashboard.html">Cancel</a>
-                </button>
             </div>
         </div>
     </div>
@@ -27,7 +24,7 @@
                 <button id="confirmUnsubscribe" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                     Yes, Unsubscribe
                 </button>
-                <button id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                <button id="closeModal" type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                     Cancel
                 </button>
             </div>
@@ -36,42 +33,50 @@
 @endsection
 
 @push('page-script')
-<script>
-    $(document).ready(function() {
-        // Open modal
-        $('#openUnsubscribeModal').on('click', function() {
-            $('#unsubscribeModal').removeClass('hidden');
-        });
+    <script>
+        $(document).ready(function() {
+            // Open modal
+            $('#openUnsubscribeModal').on('click', function() {
+                $('#unsubscribeModal').removeClass('hidden').addClass('flex'); // Ensure it is visible
+            });
 
-        // Close modal
-        $('#closeModal').on('click', function() {
-            $('#unsubscribeModal').addClass('hidden');
-        });
+            // Close modal on cancel
+            $(document).on('click', '#closeModal', function() {
+                $('#unsubscribeModal').addClass('hidden').removeClass('flex');
+            });
 
-        // Confirm Unsubscribe
-        $('#confirmUnsubscribe').on('click', function() {
-            showLoader(); // Show loader if you have one
-
-            $.ajax({
-                url: "{{ route('user.unsubscribe.destroy') }}", // Replace with actual route
-                type: 'DELETE',
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    hideLoader(); // Hide loader if you have one
-                    toastr.success('You have successfully unsubscribed.', 'Success');
-                    $('#unsubscribeModal').addClass('hidden');
-                    setTimeout(() => {
-                        window.location.href = "{{ route('auth') }}"; // Redirect after success
-                    }, 1500);
-                },
-                error: function(xhr) {
-                    hideLoader();
-                    toastr.error('Something went wrong. Please try again.', 'Error');
+            // Close modal when clicking outside the modal box
+            $('#unsubscribeModal').on('click', function(e) {
+                if ($(e.target).is('#unsubscribeModal')) {
+                    $(this).addClass('hidden').removeClass('flex');
                 }
             });
+
+            // Confirm Unsubscribe
+            $('#confirmUnsubscribe').on('click', function() {
+                showLoader(); // Show loader if you have one
+
+                $.ajax({
+                    url: "{{ route('user.unsubscribe.destroy') }}", // Replace with actual route
+                    type: 'DELETE',
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        hideLoader(); // Hide loader if you have one
+                        toastr.success('You have successfully unsubscribed.', 'Success');
+                        $('#unsubscribeModal').addClass('hidden').removeClass('flex');
+                        setTimeout(() => {
+                            window.location.href =
+                                "{{ route('auth') }}"; // Redirect after success
+                        }, 1500);
+                    },
+                    error: function(xhr) {
+                        hideLoader();
+                        toastr.error('Something went wrong. Please try again.', 'Error');
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 @endpush

@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
+use App\Traits\RemoveFileTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
+    use RemoveFileTrait;
+
     private $_service = null;
     private $_directory = 'auth/pages/users';
     private $_route = 'users';
@@ -123,32 +127,27 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $validatedData = $request->all();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->country_code = $request->country_code;
+        $user->phone_no = $request->phone_no;
 
-        if (!empty($validatedData['password'])) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-        } else {
-            unset($validatedData['password']);
+        if (!empty($request->password)) {
+            $user->password = Hash::make($request->password);
         }
 
-        // Handle image upload
-        // if ($request->hasFile('image')) {
-        //     if ($user->avatar) {
-        //         $this->deleteImage($user->avatar);
-        //     }
-        //     $imagePath = $this->uploadImage($request->file('image'), 'avatars/');
-        //     $validatedData['avatar'] = $imagePath;
-        // }
+        // Handle image update
+        if ($request->hasFile('image')) {
+            if (!empty($user->avatar)) {
+                $this->unlinkFile($user->avatar);
+            }
 
-        // Combine country code with phone number before saving
-        // if (!empty($validatedData['country_code']) && !empty($validatedData['phone'])) {
-        //     $validatedData['phone'] = $validatedData['country_code'] . $validatedData['phone'];
-        // }
+            // Upload new image
+            $imagePath = $request->file('image')->store('avatars', 'public');
+            $user->avatar = $imagePath;
+        }
 
-        // Remove country_code from validatedData as it's not a database column
-        // unset($validatedData['country_code']);
-
-        $user->update($validatedData);
+        $user->save();
 
         return redirect()->route('auth')->with('success', 'Profile updated successfully.');
     }

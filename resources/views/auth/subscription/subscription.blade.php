@@ -69,7 +69,7 @@
                 </div>
 
                 <button id="submit-button" class="w-full bg-[#3A3A3A] text-white py-2 rounded font-bold">
-                    Begin Free Trial
+                    {{ auth()->user()->stripe_customer_id ? 'Subscribe' : 'Begin Free Trial' }}
                 </button>
 
                 <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
