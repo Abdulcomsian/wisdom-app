@@ -38,7 +38,8 @@
         <div class="profileSec flex items-center gap-4 relative">
             <!-- Profile Image -->
             <div class="profileImg bg-gray-300 w-[48px] h-[48px] rounded-full overflow-hidden">
-                <img src="{{ asset('asset/images/userImg.png') }}" alt="User" class="object-cover w-full h-full" />
+                <img id="avatarPreview" alt="User avatar" class="w-20 h-20 rounded-full mr-4"
+                    src="{{ auth()->user()->avatar ? Storage::url(auth()->user()->avatar) : asset('assets/images/userImg.png') }}" >
             </div>
 
             <!-- Clickable Username -->
