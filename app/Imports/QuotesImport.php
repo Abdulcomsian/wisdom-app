@@ -13,34 +13,23 @@ class QuotesImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQ
 {
     use Importable;
 
-    protected $category_id;
+    protected $user_id;
 
-    public function __construct($category_id)
+    public function __construct($user_id)
     {
-        $this->category_id = $category_id;
+        $this->user_id = $user_id;
     }
 
     public function model(array $row)
     {
         info('data: ' . json_encode($row));
 
-        // Ensure the 'quotes' field is not null or empty
         if (empty($row['quotes'])) {
-            // Skip this row if the 'quotes' value is null or empty
-            return null;
-        }
-
-        $exists = Quote::where('category_id', $this->category_id)
-            ->where('quote', $row['quotes'])
-            ->exists();
-
-        // If the quote already exists, return null to skip this row
-        if ($exists) {
             return null;
         }
 
         return new Quote([
-            'category_id' => $this->category_id,
+            'user_id' => $this->user_id,
             'quote' => $row['quotes'],
         ]);
     }
