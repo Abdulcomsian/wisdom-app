@@ -609,11 +609,11 @@
                     <!-- Category Selection -->
                     <div>
                         <h1
-                            class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-9 mb-12 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
+                            class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-24 mb-0 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
                             "Select Daily Messages"
                         </h1>
                         <div
-                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#3A3A3A]">
+                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#00000]">
                             @foreach ($categories as $category)
                                 <label class="flex items-center space-x-2">
                                     <input type="checkbox" name="categories[]" value="{{ $category->id }}"
@@ -630,13 +630,13 @@
                         <div class="w-full md:w-1/2">
                             <label for="first_name" class="block text-lg font-medium mb-1">First Name</label>
                             <input type="text" name="first_name" id="firstName" placeholder="John"
-                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
                                 required>
                         </div>
                         <div class="w-full md:w-1/2">
                             <label for="last_name" class="block text-lg font-medium mb-1">Last Name</label>
                             <input type="text" name="last_name" id="lastName" placeholder="Doe"
-                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
                                 required>
                         </div>
                     </div>
@@ -644,7 +644,7 @@
                         <div class="w-full md:w-1/2">
                             <label for="email" class="block text-lg font-medium mb-1">Email Address</label>
                             <input type="email" name="email" id="email" placeholder="Name@gmail.com"
-                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
                                 required>
                         </div>
                         <div class="w-full md:w-1/2">
@@ -652,10 +652,10 @@
                             <div class="flex items-center space-x-2">
                                 <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
 
-                                    <select id="countryCode" name="country_code" class="bg-white py-2 text-sm border-r"></select>
+                                    <select id="countryCode" name="country_code" class="bg-white py-2 text-sm border-r text-[#00000]"></select>
                                 </div>
                                 <input id="phone" name="phone_no" type="text" placeholder="1234567890"
-                                    class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
+                                    class="flex-1 px-3 py-2 text-[#00000] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
                             </div>
                         </div>
                     </div>
@@ -663,15 +663,36 @@
                         <div class="w-full md:w-1/2">
                             <label for="password" class="block text-lg font-medium mb-1">Password</label>
                             <input type="password" name="password" id="password" placeholder="********"
-                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
                                 required>
                         </div>
                         <div class="w-full md:w-1/2">
                             <label for="confirm_password" class="block text-lg font-medium mb-1">Confirm Password</label>
                             <input type="password" name="password_confirmation" id="confirmPassword" placeholder="********"
-                                class="w-full px-4 py-[10px] text-[#8D8D8D] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
                                 required>
                         </div>
+                    </div>
+                    <div>
+                        
+                    <!--Password  -->
+                    <!-- <div class="mb-4 relative sf-pro-regular">
+                        <label for="password" class="block text-[#3A3A3A] mb-1">Password</label>
+                        <input type="password" id="password" placeholder="Password"
+                            class="w-full px-4 py-2 border border-[#3A3A3A] rounded-md placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+
+                        <svg class="fas fa-eye absolute top-2/3 right-3 transform -translate-y-1/2 cursor-pointer text-[#3A3A3A]"
+                            width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.9999 16.33C9.60992 16.33 7.66992 14.39 7.66992 12C7.66992 9.60998 9.60992 7.66998 11.9999 7.66998C14.3899 7.66998 16.3299 9.60998 16.3299 12C16.3299 14.39 14.3899 16.33 11.9999 16.33ZM11.9999 9.16998C10.4399 9.16998 9.16992 10.44 9.16992 12C9.16992 13.56 10.4399 14.83 11.9999 14.83C13.5599 14.83 14.8299 13.56 14.8299 12C14.8299 10.44 13.5599 9.16998 11.9999 9.16998Z"
+                                fill="#8D8D8D" />
+                            <path
+                                d="M12.0001 21.02C8.24008 21.02 4.69008 18.82 2.25008 15C1.19008 13.35 1.19008 10.66 2.25008 8.99998C4.70008 5.17998 8.25008 2.97998 12.0001 2.97998C15.7501 2.97998 19.3001 5.17998 21.7401 8.99998C22.8001 10.65 22.8001 13.34 21.7401 15C19.3001 18.82 15.7501 21.02 12.0001 21.02ZM12.0001 4.47998C8.77008 4.47998 5.68008 6.41998 3.52008 9.80998C2.77008 10.98 2.77008 13.02 3.52008 14.19C5.68008 17.58 8.77008 19.52 12.0001 19.52C15.2301 19.52 18.3201 17.58 20.4801 14.19C21.2301 13.02 21.2301 10.98 20.4801 9.80998C18.3201 6.41998 15.2301 4.47998 12.0001 4.47998Z"
+                                fill="#8D8D8D" />
+                        </svg>
+                    </div> -->
+                    <!-- Password -->
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -949,11 +970,11 @@
             <div class="space-y-4">
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px]">Why text messages?</span>
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Why text messages?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px]  Open-sans">
                             "Take a moment each day for peace and reflection. It can ease
                             your mind, reduce stress, and help you focus on what truly
                             matters."
@@ -962,11 +983,11 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px]">Why should I use Yours Truly Texts?</span>
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Why should I use Yours Truly Texts?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             Yours Truly Texts offers reliable and secure messaging services
                             tailored to your needs.
                         </p>
@@ -974,12 +995,12 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px]">Will you have access to my full credit
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Will you have access to my full credit
                             card information?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "No. All payments are securely processed via Stripe.com (which
                             handles payments for companies such as Lyft, Zoom, Instacart,
                             and more). Our Stripe records only contain limited information
@@ -990,13 +1011,13 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px]">How can I update my subscription and
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How can I update my subscription and
                             billing
                             informations?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "You can securely manage your subscription options, billing
                             information and categorie selection in the member login portal.
                             "
@@ -1005,11 +1026,11 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px]">How do I cancel my subscription?</span>
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How do I cancel my subscription?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "Simply text back ‘unsubscribe’ in reply to any text, SMS, or
                             MMS to cancel your subscription."
                         </p>
@@ -1017,13 +1038,13 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px]">How can I share questions or feedback for
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How can I share questions or feedback for
                             Yours Truly
                             Texts?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             <!-- You can share your questions or feedback through our contact
                                                                 form or customer support email. -->
                             "Please email us"
@@ -1031,12 +1052,12 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-8">
+            <!-- <div class="text-center mt-8">
                 <button
                     class="inter border-[2px] border-gray-100 text-gray-800 py-2 px-4 rounded-full text-[14px] md:text-[16px]">
                     See more
                 </button>
-            </div>
+            </div> -->
         </div>
         <!-- ============= -->
         <footer class="bg-white py-8 mt-16 md:px-[100px] bn-para text-[#3A3A3A]">
@@ -1078,7 +1099,7 @@
                                         d="M21.6388 4.5874C23.3519 4.5874 24.9997 5.26443 26.212 6.47926C27.4255 7.69153 28.1039 9.32663 28.1039 11.0384V21.13C28.1039 24.694 25.2041 27.5809 21.6388 27.5809H9.01921C5.45393 27.5809 2.55547 24.694 2.55547 21.13V11.0384C2.55547 7.47437 5.44116 4.5874 9.01921 4.5874H21.6388ZM23.0836 11.23C22.8153 11.2159 22.5599 11.3066 22.367 11.4855L16.6071 16.0842C15.8662 16.6986 14.8046 16.6986 14.0522 16.0842L8.30385 11.4855C7.90658 11.1917 7.35729 11.23 7.02643 11.5749C6.68153 11.9198 6.64321 12.4691 6.93574 12.8523L7.10308 13.0184L12.9153 17.5532C13.6307 18.1153 14.4981 18.4219 15.4063 18.4219C16.312 18.4219 17.1947 18.1153 17.9088 17.5532L23.6712 12.9417L23.7734 12.8395C24.0787 12.4691 24.0787 11.9326 23.7593 11.5621C23.5818 11.3718 23.3378 11.2555 23.0836 11.23Z"
                                         fill="#FFC400" />
                                 </svg>
-                                <p class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                                <p class="text-[#3A3A3A]  CabinetGrotesk-800 2xl:text-[20.44px] text-[14px] md:text-[16px]">
                                     Help@Nur.Com
                                 </p>
                             </div>
@@ -1089,7 +1110,7 @@
                                         d="M14.7309 16.5583C19.8266 21.6526 20.9826 15.759 24.2271 19.0012C27.355 22.1283 29.1528 22.7548 25.1897 26.7167C24.6933 27.1157 21.5393 31.9152 10.4552 20.8341C-0.630384 9.75167 4.16641 6.59446 4.56545 6.09819C8.53809 2.12528 9.15381 3.93352 12.2817 7.06057C15.5262 10.3041 9.63513 11.4639 14.7309 16.5583Z"
                                         fill="#FFC400" />
                                 </svg>
-                                <p class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                                <p class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]">
                                     +1 234 456 678 89
                                 </p>
                             </div>
@@ -1099,35 +1120,35 @@
 
                     <div class="flex gap-[100px] mb-4 md:mb-0">
                         <div>
-                            <h3 class="font-semibold text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
+                            <h3 class=" CabinetGrotesk-800 font-extrabold text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
                                 Links
                             </h3>
                             <ul class="mb-1 md:space-y-2">
                                 <li>
-                                    <a class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                    <a class="text-[#3A3A3A] Open-sans  2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">Home</a>
                                 </li>
                                 <li>
-                                    <a class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">About Us</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
+                            <h3 class=" CabinetGrotesk-800 text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
                                 Legal
                             </h3>
                             <ul class="mb-1 md:space-y-2">
                                 <li>
-                                    <a class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                    <a class="text-[#3A3A3A] Open-sans  2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">Terms Of Use</a>
                                 </li>
                                 <li>
-                                    <a class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">Privacy Policy</a>
                                 </li>
                                 <li>
-                                    <a class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">Cookie Policy</a>
                                 </li>
                             </ul>
@@ -1135,10 +1156,10 @@
                     </div>
 
                     <div class="items-center text-start flex flex-col">
-                        <h3 class="font-semibold text-[#3A3A3A] mb-0 md:mb-2 text-[25px] 2xl:text-[35.77px]">
+                        <h3 class=" CabinetGrotesk-800 text-[#3A3A3A] mb-0 md:mb-2 text-[25px] 2xl:text-[35.77px]">
                             Newsletter
                         </h3>
-                        <p class="text-[#3A3A3A] mb-4 text-sm 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                        <p class="text-[#3A3A3A] Open-sans mb-4 text-sm 2xl:text-[20.44px] text-[14px] md:text-[16px]">
                             Stay Up To Date
                         </p>
                         <div class="flex items-center space-x-2">
@@ -1146,7 +1167,7 @@
                                 class="py-2 px-4 pr-[120px] text-[14px] rounded-full border border-gray-300 manrope w-full relative 2xl:text-[20.44px] 2xl:py-4"
                                 placeholder="Your email" type="email" />
                             <button
-                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] font-bold py-[7px] px-[14px] rounded-full absolute manrope right-[44px] md:right-[120px] 2xl:right-[220px] 2xl:font-extrabold 2xl:text-[17.88px]"
+                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] Open-sans py-[7px] px-[14px] rounded-full absolute  right-[44px] md:right-[120px] 2xl:right-[220px] 2xl:font-extrabold 2xl:text-[17.88px]"
                                 onclick="window.location.href='404-subscribe.html';">
                                 Subscribe
                             </button>
