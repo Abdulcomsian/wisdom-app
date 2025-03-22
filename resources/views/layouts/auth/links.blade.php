@@ -9,7 +9,7 @@
 
     {{-- @vite(['resources/assets/sass/app.scss', 'resources/assets/js/app.js']) --}}
     {{-- @vite(["resources/css/app.css", "resources/js/app.js"]) --}}
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @vite(['resources\scss\app.scss', 'resources\js\app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-
