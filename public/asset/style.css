@@ -196,7 +196,10 @@ body {
     font-family: CabinetGrotesk-800;
 }
 
-
+ html {
+    scroll-behavior: smooth;
+  }
+  
 /* --------------Carousel */
 /* @keyframes carouselAnim {
     from {

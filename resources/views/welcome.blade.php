@@ -1185,7 +1185,7 @@
                 <!--  -->
                 <div class="text-center text-[9px] md:text-[12px] mt-2 sm:mt-6 text-[#3A3A3A]">
                     <p class="2xl:text-[20.44px]">
-                        Copyright 2025 Inc. All Rights Reserved
+                        Copyright 2025 Inc. All Rights Reserved 
                     </p>
                 </div>
             </div>
