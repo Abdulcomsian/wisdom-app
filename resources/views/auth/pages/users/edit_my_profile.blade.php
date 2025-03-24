@@ -13,7 +13,14 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label for="name" class="form-label">Full name</label>
+                                <label for="name" class="form-label">First name</label>
+                                <x-front.input-field type="text" name="name" id="name"
+                                    place="Enter Full Name" val="{{ $data->name }}" required="true" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="name" class="form-label">Last name</label>
                                 <x-front.input-field type="text" name="name" id="name"
                                     place="Enter Full Name" val="{{ $data->name }}" required="true" />
                             </div>
