@@ -11,7 +11,7 @@
                     <a class="text-[#FFC400] font-bold text-2xl" href="#"> Home </a>
                 </li>
                 <li>
-                    <a class="text-[#3A3A3A] text-2xl" href="#"> About us </a>
+                    <a class="text-[#3A3A3A] text-2xl" href="#about"> About us </a>
                 </li>
                 <li>
                     <a class="text-[#3A3A3A] text-2xl" href="#FAQ"> FAQ </a>
@@ -562,6 +562,8 @@
             </div>
         </div>
     </header>
+    <section id="about" class="border-1" >
+      
         <form id="registrationForm" action="{{ route('register') }}" method="post">
             @csrf
             <input type="hidden" name="plan_id" id="plan_id" value=""> <!-- Hidden field for selected plan ID -->
@@ -703,7 +705,8 @@
                 </div>
             </div>
         </form>
-
+  
+        </section>
     <div class="bg-white">
         <div class="flex flex-col items-center justify-center mt-[60px] mb-[20px]">
             <h1
@@ -1062,7 +1065,7 @@
         <!-- ============= -->
         <footer class="bg-white py-8 mt-16 md:px-[100px] bn-para text-[#3A3A3A]">
             <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex flex-col md:flex-row justify-between ">
                     <div class="flex flex-row md:flex-col space-x-6 md:space-x-2 mb-4 md:mb-0">
                         <div class="ml-6 mb-4">
                             <svg width="52" height="52" viewBox="0 0 88 87" fill="none"
@@ -1167,7 +1170,8 @@
                                 class="py-2 px-4 pr-[120px] text-[14px] rounded-full border border-gray-300 manrope w-full relative 2xl:text-[20.44px] 2xl:py-4"
                                 placeholder="Your email" type="email" />
                             <button
-                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] Open-sans py-[7px] px-[14px] rounded-full absolute  right-[44px] md:right-[120px] 2xl:right-[220px] 2xl:font-extrabold 2xl:text-[17.88px]"
+                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] Open-sans py-[7px] px-[14px] rounded-full absolute  right-[44px] md:right-[120px]  
+                                2xl:font-extrabold 2xl:text-[17.88px]"
                                 onclick="window.location.href='404-subscribe.html';">
                                 Subscribe
                             </button>
