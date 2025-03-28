@@ -714,7 +714,7 @@
                             </div>
                             <input
                                 class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                type="text" value="3456364646" name="phone_no" />
+                                type="text" placeholder="3456364646" name="phone_no" />
                         </div>
                     </div>
                 </div>
