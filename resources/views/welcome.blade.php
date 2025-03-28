@@ -615,41 +615,72 @@
                             "Select Daily Messages"
                         </h1>
                         <div
-                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#00000]">
-                            @foreach ($categories as $category)
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                        class="form-checkbox h-5 w-5 text-gray-800 category-checkbox" disabled>
-                                    <span class="text-sm md:text-lg font-medium 2xl:text-[25px]">{{ $category->name }}</span>
-                                </label>
-                            @endforeach
+                            class="sf-pro-regular bg-white rounded-lg p-6 shadow-md mb-4 md:mb-0 md:w-1/4 md:text-left chk-para 2xl:p-12 2xl:w-[410px] 2xl:h-[281px]">
+                            <h2 class="sf-pro-regular text-4xl font-bold text-[#3A3A3A] xl:leading-[71px] 2xl:text-[60px]">
+                                ${{ number_format($plan->price, 2) }}
+                            </h2>
+                            <p
+                                class="sf-pro-regular text-sm text-[#3A3A3A] xl:leading-[23px] 2xl:text-[20px] 2xl:mt-6 font-semibold">
+                                @if ($plan->slug == 'basic-plan')
+                                    One text a week<br />Can select up to 2 categories.
+                                @elseif($plan->slug == 'standard-plan')
+                                    Three texts a week<br />Can select up to 8 Categories.
+                                @elseif($plan->slug == 'premium-plan')
+                                    Text Daily<br />Select any categories
+                                @endif
+                            </p>
+                            <button type="button"
+                                class="bg-[#FFC400] text-[#3A3A3A] font-semibold py-2 px-4 rounded mt-4 w-full 2xl:mt-6 select-plan"
+                                data-plan-id="{{ $plan->id }}"
+                                data-max-categories="{{ $plan->slug == 'basic-plan' ? 2 : ($plan->slug == 'standard-plan' ? 8 : 'unlimited') }}">
+                                Select
+                            </button>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
 
-                <div class="max-w-2xl w-[90%] md:w-full mx-6 md:mx-auto mt-[41px] sf-pro-regular font-normal">
-                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                        <div class="w-full md:w-1/2">
-                            <label for="first_name" class="block text-lg font-medium mb-1">First Name</label>
-                            <input type="text" name="first_name" id="firstName" placeholder="John"
-                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                required>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <label for="last_name" class="block text-lg font-medium mb-1">Last Name</label>
-                            <input type="text" name="last_name" id="lastName" placeholder="Doe"
-                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                required>
-                        </div>
+                <!-- Category Selection -->
+                <div>
+                    <h1
+                        class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-24 mb-0 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
+                        "Select Daily Messages"
+                    </h1>
+                    <div
+                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#00000]">
+                        @foreach ($categories as $category)
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                    class="form-checkbox h-5 w-5 text-gray-800 category-checkbox" disabled>
+                                <span class="text-sm md:text-lg font-medium 2xl:text-[25px]">{{ $category->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                        <div class="w-full md:w-1/2">
-                            <label for="email" class="block text-lg font-medium mb-1">Email Address</label>
-                            <input type="email" name="email" id="email" placeholder="Name@gmail.com"
-                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                required>
-                        </div>
-                        <div class="w-full md:w-1/2">
+                </div>
+            </div>
+
+            <div class="max-w-2xl w-[90%] md:w-full mx-6 md:mx-auto mt-[41px] sf-pro-regular font-normal">
+                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                    <div class="w-full md:w-1/2">
+                        <label for="first_name" class="block text-lg font-medium mb-1">First Name</label>
+                        <input type="text" name="first_name" id="firstName" placeholder="John"
+                            class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                            required>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <label for="last_name" class="block text-lg font-medium mb-1">Last Name</label>
+                        <input type="text" name="last_name" id="lastName" placeholder="Doe"
+                            class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                            required>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                    <div class="w-full md:w-1/2">
+                        <label for="email" class="block text-lg font-medium mb-1">Email Address</label>
+                        <input type="email" name="email" id="email" placeholder="Name@gmail.com"
+                            class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                            required>
+                    </div>
+                    {{-- <div class="w-full md:w-1/2">
                             <label for="phone" class="block text-lg font-medium mb-1">Phone Number</label>
                             <div class="flex items-center space-x-2">
                                 <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
@@ -659,49 +690,107 @@
                                 <input id="phone" name="phone_no" type="text" placeholder="1234567890"
                                     class="flex-1 px-3 py-2 text-[#00000] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]">
                             </div>
+                        </div> --}}
+
+                    <div class="mb-4">
+                        <label for="email" class="block text-lg font-medium mb-1"><a href="#">Phone
+                                Number</a></label>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                <div class="flex items-center bg-white px-3 py-2">
+                                    <div class="mr-2">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13.8 1.38C12.39 0.51 10.77 0 9 0V1.38H13.8Z" fill="#ED4C5C" />
+                                            <path d="M9 2.76013H15.48C14.97 2.25013 14.4 1.77013 13.8 1.38013H9V2.76013Z"
+                                                fill="white" />
+                                            <path d="M9 4.14001H16.59C16.26 3.63001 15.9 3.18001 15.51 2.76001H9V4.14001Z"
+                                                fill="#ED4C5C" />
+                                            <path d="M9 5.52014H17.31C17.1 5.04014 16.86 4.56014 16.59 4.14014H9V5.52014Z"
+                                                fill="white" />
+                                            <path d="M9 6.90002H17.76C17.64 6.42002 17.49 5.97002 17.31 5.52002H9V6.90002Z"
+                                                fill="#ED4C5C" />
+                                            <path d="M9 8.30993H17.97C17.94 7.82993 17.85 7.37993 17.76 6.92993H9V8.30993Z"
+                                                fill="white" />
+                                            <path
+                                                d="M17.97 8.31006H9V9.00006H0C0 9.24006 -2.90573e-08 9.45006 0.03 9.69006H17.97C18 9.45006 18 9.24006 18 9.00006C18 8.76006 18 8.52006 17.97 8.31006Z"
+                                                fill="#ED4C5C" />
+                                            <path
+                                                d="M0.239907 11.0699H17.7599C17.8799 10.6199 17.9399 10.1699 17.9699 9.68994H0.0299072C0.0599072 10.1399 0.119907 10.6199 0.239907 11.0699Z"
+                                                fill="white" />
+                                            <path
+                                                d="M0.689929 12.4501H17.3099C17.4899 12.0001 17.6399 11.5501 17.7599 11.0701H0.239929C0.359929 11.5501 0.509929 12.0001 0.689929 12.4501Z"
+                                                fill="#ED4C5C" />
+                                            <path
+                                                d="M1.41019 13.83H16.5902C16.8602 13.38 17.1002 12.93 17.3102 12.45H0.690186C0.900186 12.93 1.14019 13.38 1.41019 13.83Z"
+                                                fill="white" />
+                                            <path
+                                                d="M2.48997 15.2101H15.51C15.9 14.7901 16.29 14.3101 16.59 13.8301H1.40997C1.70997 14.3401 2.09997 14.7901 2.48997 15.2101Z"
+                                                fill="#ED4C5C" />
+                                            <path
+                                                d="M4.16993 16.59H13.8299C14.4599 16.2 14.9999 15.72 15.5099 15.21H2.48993C2.99993 15.75 3.56993 16.2 4.16993 16.59Z"
+                                                fill="white" />
+                                            <path
+                                                d="M8.99998 18.0001C10.77 18.0001 12.42 17.4901 13.83 16.5901H4.16998C5.57998 17.4901 7.22998 18.0001 8.99998 18.0001Z"
+                                                fill="#ED4C5C" />
+                                            <path
+                                                d="M4.2 1.38C3.57 1.77 3 2.25 2.49 2.76C2.07 3.18 1.71 3.66 1.41 4.14C1.14 4.59 0.87 5.04 0.69 5.52C0.51 5.97 0.36 6.42 0.24 6.9C0.12 7.35 0.06 7.8 0.03 8.28C-2.90573e-08 8.52 0 8.76 0 9H9V0C7.23 0 5.61 0.51 4.2 1.38Z"
+                                                fill="#428BC1" />
+                                            <path
+                                                d="M6.89992 0.299805L7.04992 0.749805H7.49992L7.13992 1.0498L7.25992 1.4998L6.89992 1.2298L6.53992 1.4998L6.65992 1.0498L6.29992 0.749805H6.74992L6.89992 0.299805ZM8.09992 2.0998L8.24992 2.5498H8.69992L8.33992 2.8498L8.45992 3.2998L8.09992 3.0298L7.73992 3.2998L7.85992 2.8498L7.49992 2.5498H7.94992L8.09992 2.0998ZM5.69992 2.0998L5.84992 2.5498H6.29992L5.93992 2.8498L6.05992 3.2998L5.69992 3.0298L5.33992 3.2998L5.45992 2.8498L5.09992 2.5498H5.54992L5.69992 2.0998ZM6.89992 3.8998L7.04992 4.3498H7.49992L7.13992 4.6498L7.25992 5.0998L6.89992 4.8298L6.53992 5.0998L6.65992 4.6498L6.29992 4.3498H6.74992L6.89992 3.8998ZM4.49992 3.8998L4.64992 4.3498H5.09992L4.73992 4.6498L4.85992 5.0998L4.49992 4.8298L4.13992 5.0998L4.25992 4.6498L3.89992 4.3498H4.34992L4.49992 3.8998ZM2.09992 3.8998L2.24992 4.3498H2.69992L2.33992 4.6498L2.45992 5.0998L2.09992 4.8298L1.73992 5.0998L1.85992 4.6498L1.49992 4.3498H1.94992L2.09992 3.8998ZM8.09992 5.6998L8.24992 6.1498H8.69992L8.33992 6.4498L8.45992 6.8998L8.09992 6.6298L7.73992 6.8998L7.85992 6.4498L7.49992 6.1498H7.94992L8.09992 5.6998ZM5.69992 5.6998L5.84992 6.1498H6.29992L5.93992 6.4498L6.05992 6.8998L5.69992 6.6298L5.33992 6.8998L5.45992 6.4498L5.09992 6.1498H5.54992L5.69992 5.6998ZM3.29992 5.6998L3.44992 6.1498H3.89992L3.53992 6.4498L3.65992 6.8998L3.29992 6.6298L2.93992 6.8998L3.05992 6.4498L2.69992 6.1498H3.14992L3.29992 5.6998ZM6.89992 7.4998L7.04992 7.9498H7.49992L7.13992 8.2498L7.25992 8.6998L6.89992 8.4298L6.53992 8.6998L6.65992 8.2498L6.29992 7.9498H6.74992L6.89992 7.4998ZM4.49992 7.4998L4.64992 7.9498H5.09992L4.73992 8.2498L4.85992 8.6998L4.49992 8.4298L4.13992 8.6998L4.25992 8.2498L3.89992 7.9498H4.34992L4.49992 7.4998ZM2.09992 7.4998L2.24992 7.9498H2.69992L2.33992 8.2498L2.45992 8.6998L2.09992 8.4298L1.73992 8.6998L1.85992 8.2498L1.49992 7.9498H1.94992L2.09992 7.4998ZM2.93992 3.2998L3.29992 3.0298L3.65992 3.2998L3.50992 2.8498L3.86992 2.5498H3.41992L3.29992 2.0998L3.14992 2.5498H2.72992L3.08992 2.8198L2.93992 3.2998ZM0.539922 6.8998L0.899922 6.6298L1.25992 6.8998L1.10992 6.4498L1.46992 6.1498H1.04992L0.899922 5.6998L0.749922 6.1498H0.449922C0.449922 6.1798 0.419922 6.2098 0.419922 6.2398L0.659922 6.4198L0.539922 6.8998Z"
+                                                fill="white" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-[#434343] text-sm"> +1 </span>
+                                    <i class="fas fa-caret-down ml-2 text-gray-500"></i>
+                                </div>
+                            </div>
+                            <input
+                                class="flex-1 px-3 py-2 text-[#747474] bg-white text-sm rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                                type="text" value="3456364646" name="phone_no" />
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
-                        <div class="w-full md:w-1/2">
-                            <label for="password" class="block text-lg font-medium mb-1">Password</label>
-                            <input type="password" name="password" id="password" placeholder="********"
-                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                required>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <label for="confirm_password" class="block text-lg font-medium mb-1">Confirm Password</label>
-                            <input type="password" name="password_confirmation" id="confirmPassword" placeholder="********"
-                                class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
-                                required>
-                        </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+                    <div class="w-full md:w-1/2">
+                        <label for="password" class="block text-lg font-medium mb-1">Password</label>
+                        <input type="password" name="password" id="password" placeholder="********"
+                            class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                            required>
                     </div>
-                    <div>
-                        
+                    <div class="w-full md:w-1/2">
+                        <label for="confirm_password" class="block text-lg font-medium mb-1">Confirm Password</label>
+                        <input type="password" name="password_confirmation" id="confirmPassword" placeholder="********"
+                            class="w-full px-4 py-[10px] text-[#00000] rounded-lg focus:ring-2 focus:ring-[#8B89D9]"
+                            required>
+                    </div>
+                </div>
+                <div>
+
                     <!--Password  -->
                     <!-- <div class="mb-4 relative sf-pro-regular">
-                        <label for="password" class="block text-[#3A3A3A] mb-1">Password</label>
-                        <input type="password" id="password" placeholder="Password"
-                            class="w-full px-4 py-2 border border-[#3A3A3A] rounded-md placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+                            <label for="password" class="block text-[#3A3A3A] mb-1">Password</label>
+                            <input type="password" id="password" placeholder="Password"
+                                class="w-full px-4 py-2 border border-[#3A3A3A] rounded-md placeholder-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-yellow-500" />
 
-                        <svg class="fas fa-eye absolute top-2/3 right-3 transform -translate-y-1/2 cursor-pointer text-[#3A3A3A]"
-                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M11.9999 16.33C9.60992 16.33 7.66992 14.39 7.66992 12C7.66992 9.60998 9.60992 7.66998 11.9999 7.66998C14.3899 7.66998 16.3299 9.60998 16.3299 12C16.3299 14.39 14.3899 16.33 11.9999 16.33ZM11.9999 9.16998C10.4399 9.16998 9.16992 10.44 9.16992 12C9.16992 13.56 10.4399 14.83 11.9999 14.83C13.5599 14.83 14.8299 13.56 14.8299 12C14.8299 10.44 13.5599 9.16998 11.9999 9.16998Z"
-                                fill="#8D8D8D" />
-                            <path
-                                d="M12.0001 21.02C8.24008 21.02 4.69008 18.82 2.25008 15C1.19008 13.35 1.19008 10.66 2.25008 8.99998C4.70008 5.17998 8.25008 2.97998 12.0001 2.97998C15.7501 2.97998 19.3001 5.17998 21.7401 8.99998C22.8001 10.65 22.8001 13.34 21.7401 15C19.3001 18.82 15.7501 21.02 12.0001 21.02ZM12.0001 4.47998C8.77008 4.47998 5.68008 6.41998 3.52008 9.80998C2.77008 10.98 2.77008 13.02 3.52008 14.19C5.68008 17.58 8.77008 19.52 12.0001 19.52C15.2301 19.52 18.3201 17.58 20.4801 14.19C21.2301 13.02 21.2301 10.98 20.4801 9.80998C18.3201 6.41998 15.2301 4.47998 12.0001 4.47998Z"
-                                fill="#8D8D8D" />
-                        </svg>
-                    </div> -->
+                            <svg class="fas fa-eye absolute top-2/3 right-3 transform -translate-y-1/2 cursor-pointer text-[#3A3A3A]"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.9999 16.33C9.60992 16.33 7.66992 14.39 7.66992 12C7.66992 9.60998 9.60992 7.66998 11.9999 7.66998C14.3899 7.66998 16.3299 9.60998 16.3299 12C16.3299 14.39 14.3899 16.33 11.9999 16.33ZM11.9999 9.16998C10.4399 9.16998 9.16992 10.44 9.16992 12C9.16992 13.56 10.4399 14.83 11.9999 14.83C13.5599 14.83 14.8299 13.56 14.8299 12C14.8299 10.44 13.5599 9.16998 11.9999 9.16998Z"
+                                    fill="#8D8D8D" />
+                                <path
+                                    d="M12.0001 21.02C8.24008 21.02 4.69008 18.82 2.25008 15C1.19008 13.35 1.19008 10.66 2.25008 8.99998C4.70008 5.17998 8.25008 2.97998 12.0001 2.97998C15.7501 2.97998 19.3001 5.17998 21.7401 8.99998C22.8001 10.65 22.8001 13.34 21.7401 15C19.3001 18.82 15.7501 21.02 12.0001 21.02ZM12.0001 4.47998C8.77008 4.47998 5.68008 6.41998 3.52008 9.80998C2.77008 10.98 2.77008 13.02 3.52008 14.19C5.68008 17.58 8.77008 19.52 12.0001 19.52C15.2301 19.52 18.3201 17.58 20.4801 14.19C21.2301 13.02 21.2301 10.98 20.4801 9.80998C18.3201 6.41998 15.2301 4.47998 12.0001 4.47998Z"
+                                    fill="#8D8D8D" />
+                            </svg>
+                        </div> -->
                     <!-- Password -->
-                    </div>
-                    <div class="flex justify-center">
-                        <button type="submit"
-                            class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full md:w-1/2 lg:w-1/3 mx-auto mt-3 2xl:text-xl 2xl:py-3">
-                            Sign Up
-                        </button>
-                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit"
+                        class="bg-gray-800 text-white py-2 px-4 font-bold rounded-lg w-full md:w-1/2 lg:w-1/3 mx-auto mt-3 2xl:text-xl 2xl:py-3">
+                        Sign Up
+                    </button>
                 </div>
             </div>
         </form>
@@ -999,11 +1088,6 @@
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
                         <span class="2xl:text-[20px] text-[14px] md:text-[16px] bn-para">Will you have access to my full credit
-                            card information?</span>
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
                             "No. All payments are securely processed via Stripe.com (which
                             handles payments for companies such as Lyft, Zoom, Instacart,
                             and more). Our Stripe records only contain limited information
@@ -1049,18 +1133,18 @@
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
                         <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
                             <!-- You can share your questions or feedback through our contact
-                                                                form or customer support email. -->
+                                                                    form or customer support email. -->
                             "Please email us"
                         </p>
                     </div>
                 </div>
             </div>
             <!-- <div class="text-center mt-8">
-                <button
-                    class="inter border-[2px] border-gray-100 text-gray-800 py-2 px-4 rounded-full text-[14px] md:text-[16px]">
-                    See more
-                </button>
-            </div> -->
+                    <button
+                        class="inter border-[2px] border-gray-100 text-gray-800 py-2 px-4 rounded-full text-[14px] md:text-[16px]">
+                        See more
+                    </button>
+                </div> -->
         </div>
         <!-- ============= -->
         <footer class="bg-white py-8 mt-16 text-[#3A3A3A]">
@@ -1175,28 +1259,28 @@
     </div>
     @push('scripts')
         <script>
-        fetch("https://restcountries.com/v3.1/all")
-            .then(response => response.json())
-            .then(data => {
-                let countrySelect = document.getElementById("countryCode");
+            // fetch("https://restcountries.com/v3.1/all")
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         let countrySelect = document.getElementById("countryCode");
 
-                data.forEach(country => {
-                    if (country.idd && country.idd.root && country.cca2) {
-                        let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
+            //         data.forEach(country => {
+            //             if (country.idd && country.idd.root && country.cca2) {
+            //                 let dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : "");
 
-                        let flagEmoji = [...country.cca2.toUpperCase()]
-                            .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
-                            .join('');
+            //                 let flagEmoji = [...country.cca2.toUpperCase()]
+            //                     .map(char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+            //                     .join('');
 
-                        let option = document.createElement("option");
-                        option.value = dialCode;
-                        option.textContent = `${flagEmoji} ${dialCode}`;
+            //                 let option = document.createElement("option");
+            //                 option.value = dialCode;
+            //                 option.textContent = `${flagEmoji} ${dialCode}`;
 
-                        countrySelect.appendChild(option);
-                    }
-                });
-            })
-            .catch(error => console.error("Error fetching country data:", error));
+            //                 countrySelect.appendChild(option);
+            //             }
+            //         });
+            //     })
+            //     .catch(error => console.error("Error fetching country data:", error));
 
 
             document.querySelectorAll(".faq-item").forEach((item) => {
@@ -1215,9 +1299,9 @@
                 });
             });
 
-            document.getElementById("countryCode").addEventListener("change", function() {
-                const selectedOption = this.options[this.selectedIndex];
-            });
+            // document.getElementById("countryCode").addEventListener("change", function() {
+            //     const selectedOption = this.options[this.selectedIndex];
+            // });
 
             $(document).ready(function() {
                 let maxCategories = 0;
@@ -1272,10 +1356,19 @@
                             }
                         },
                         error: function(xhr) {
-                            hideLoader();
-                            this.disabled = false;
-                            toastr.error('An error occurred. Please try again.', 'Error');
-                        }
+    hideLoader();
+    this.disabled = false;
+
+    if (xhr.status === 422) {
+        let errors = xhr.responseJSON.errors;
+        let errorMessages = Object.values(errors).flat().join('<br>'); // Flatten and join errors
+
+        toastr.error(errorMessages, 'Validation Error'); // Show errors in Toastr
+    } else {
+        toastr.error('An unexpected error occurred. Please try again.', 'Error');
+    }
+}
+
                     });
                 });
             });
