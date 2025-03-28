@@ -11,7 +11,7 @@
                     <a class="text-[#FFC400] font-bold text-2xl" href="#"> Home </a>
                 </li>
                 <li>
-                    <a class="text-[#3A3A3A] text-2xl" href="#about"> About us </a>
+                    <a class="text-[#3A3A3A] text-2xl" href="#"> About us </a>
                 </li>
                 <li>
                     <a class="text-[#3A3A3A] text-2xl" href="#FAQ"> FAQ </a>
@@ -27,7 +27,7 @@
             </a>
         </div>
         <!-- =======HERo======== -->
-        <div class="banner flex flex-col mt-[] 2xl:mt-[80px] items-center justify-center text-center">
+        <div class="banner flex flex-col mt-[120px] items-center justify-center text-center">
             <div class="bn-headings">
                 <h1
                     class="text-3xl md:text-5xl font-[800] text-[#FFC400] 2xl:text-[88px] 2xl:font-extrabold CabinetGrotesk-800">
@@ -49,7 +49,7 @@
         </div>
         <div class="bn-para pb-20">
             <p
-                class="bn-para text-[#8D8D8D] text-sm md:text-[17px] max-w-[646px] mx-4 md:mx-auto mt-4 leading-[18px] 2xl:text-[24px] 2xl:max-w-[1040px] 2xl:leading-[26px]">
+                class="bn-para text-[#8D8D8D] text-sm md:text-[17px] max-w-[646px] mx-4 md:mx-auto mt-4 leading-[18px] 2xl:text-[24px] 2xl:max-w-[1000px] 2xl:leading-[26px]">
                 Sign Up To Receive Daily Texts Designed To Uplift And Guide You On
                 Your Journey Through Life. Your Journey Through Life. Each Message
                 Offers Inspiration, Wisdom, Motivation, Or Even A Little Something To
@@ -562,58 +562,25 @@
             </div>
         </div>
     </header>
-    <section id="about" class="border-1" >
-      
-        <form id="registrationForm" action="{{ route('register') }}" method="post">
-            @csrf
-            <input type="hidden" name="plan_id" id="plan_id" value=""> <!-- Hidden field for selected plan ID -->
-            <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] py-[40px] md:px-[80px]">
-                <div class="container mx-auto p-4 text-center">
-                    <h1
-                        class="bn-headings leading-[60px] text-5xl font-[800] text-[#3A3A3A] mb-2 2xl:text-[88px] 2xl:leading-[90px] 2xl:font-extrabold CabinetGrotesk-800">
-                        Sign Up
-                    </h1>
-                    <p class="bn-para text-lg text-[#3A3A3A] 2xl:text-[24px] 2xl:leading-[32.9px] 2xl:mt-6">
-                        Free 7-Day Trial
-                    </p>
-                    <p class="bn-para text-sm text-[#3A3A3A] 2xl:text-[20px] 2xl:leading-[27.42px]">
-                        (Cancel At Any Time By Replying "Unsubscribe" To The Messages)
-                    </p>
+    <form id="registrationForm" action="{{ route('register') }}" method="post">
+        @csrf
+        <input type="hidden" name="plan_id" id="plan_id" value=""> <!-- Hidden field for selected plan ID -->
+        <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] py-[40px] md:px-[80px]">
+            <div class="container mx-auto p-4 text-center">
+                <h1
+                    class="bn-headings leading-[60px] text-5xl font-[800] text-[#3A3A3A] mb-2 2xl:text-[88px] 2xl:leading-[90px] 2xl:font-extrabold CabinetGrotesk-800">
+                    Sign Up
+                </h1>
+                <p class="bn-para text-lg text-[#3A3A3A] 2xl:text-[24px] 2xl:leading-[32.9px] 2xl:mt-6">
+                    Free 7-Day Trial
+                </p>
+                <p class="bn-para text-sm text-[#3A3A3A] 2xl:text-[20px] 2xl:leading-[27.42px]">
+                    (Cancel At Any Time By Replying "Unsubscribe" To The Messages)
+                </p>
 
-                    <!-- Plan Selection -->
-                    <div class="flex flex-col md:flex-row justify-center gap-[20px] my-8 2xl:gap-[30px]">
-                        @foreach ($plans as $plan)
-                            <div
-                                class="sf-pro-regular bg-white rounded-lg p-6 shadow-md mb-4 md:mb-0 md:w-1/4 md:text-left chk-para 2xl:p-12 2xl:w-[410px] 2xl:h-[281px]">
-                                <h2 class="sf-pro-regular italic text-4xl font-bold text-[#3A3A3A] xl:leading-[71px] 2xl:text-[60px]">
-                                    ${{ number_format($plan->price, 2) }}
-                                </h2>
-                                <p
-                                    class="sf-pro-regular italic text-sm text-[#3A3A3A] xl:leading-[23px] 2xl:text-[20px] 2xl:mt-6 font-semibold">
-                                    @if ($plan->slug == 'basic-plan')
-                                        One text a week<br />Can select up to 2 categories.
-                                    @elseif($plan->slug == 'standard-plan')
-                                        Three texts a week<br />Can select up to 8 Categories.
-                                    @elseif($plan->slug == 'premium-plan')
-                                        Text Daily<br />Select any categories
-                                    @endif
-                                </p>
-                                <button type="button"
-                                    class="bg-[#FFC400] text-[#3A3A3A] font-semibold py-2 px-4 rounded mt-4 w-full 2xl:mt-6 select-plan italic"
-                                    data-plan-id="{{ $plan->id }}"
-                                    data-max-categories="{{ $plan->slug == 'basic-plan' ? 2 : ($plan->slug == 'standard-plan' ? 8 : 'unlimited') }}">
-                                    Select
-                                </button>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Category Selection -->
-                    <div>
-                        <h1
-                            class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-16 mb-0 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
-                            "Select Daily Messages"
-                        </h1>
+                <!-- Plan Selection -->
+                <div class="flex flex-col md:flex-row justify-center gap-[20px] my-8 2xl:gap-[30px]">
+                    @foreach ($plans as $plan)
                         <div
                             class="sf-pro-regular bg-white rounded-lg p-6 shadow-md mb-4 md:mb-0 md:w-1/4 md:text-left chk-para 2xl:p-12 2xl:w-[410px] 2xl:h-[281px]">
                             <h2 class="sf-pro-regular text-4xl font-bold text-[#3A3A3A] xl:leading-[71px] 2xl:text-[60px]">
@@ -793,9 +760,9 @@
                     </button>
                 </div>
             </div>
-        </form>
-  
-        </section>
+        </div>
+    </form>
+
     <div class="bg-white">
         <div class="flex flex-col items-center justify-center mt-[60px] mb-[20px]">
             <h1
@@ -1062,11 +1029,12 @@
             <div class="space-y-4">
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] bn-para">Why text messages?</span>
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Why text
+                            messages?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
+                        <p class="text-[14px] md:text-[16px]  Open-sans">
                             "Take a moment each day for peace and reflection. It can ease
                             your mind, reduce stress, and help you focus on what truly
                             matters."
@@ -1075,11 +1043,12 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] bn-para">Why should I use Yours Truly Texts?</span>
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Why should I use Yours
+                            Truly Texts?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             Yours Truly Texts offers reliable and secure messaging services
                             tailored to your needs.
                         </p>
@@ -1087,7 +1056,13 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] bn-para">Will you have access to my full credit
+                        <span class="2xl:text-[20px] text-[14px] md:text-[16px] CabinetGrotesk-800">Will you have access to
+                            my full credit
+                            card information?</span>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "No. All payments are securely processed via Stripe.com (which
                             handles payments for companies such as Lyft, Zoom, Instacart,
                             and more). Our Stripe records only contain limited information
@@ -1098,13 +1073,14 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">How can I update my subscription and
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How can I update my
+                            subscription and
                             billing
                             informations?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] bn-para 2xl:text-[20px]">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "You can securely manage your subscription options, billing
                             information and categorie selection in the member login portal.
                             "
@@ -1113,11 +1089,12 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">How do I cancel my subscription?</span>
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How do I cancel my
+                            subscription?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             "Simply text back ‘unsubscribe’ in reply to any text, SMS, or
                             MMS to cancel your subscription."
                         </p>
@@ -1125,13 +1102,14 @@
                 </div>
                 <div class="faq-item bn-para">
                     <div class="flex justify-between items-center bg-[#FAFAFA] p-4 rounded-full cursor-pointer">
-                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">How can I share questions or feedback for
+                        <span class="text-[14px] md:text-[16px] 2xl:text-[20px] CabinetGrotesk-800">How can I share
+                            questions or feedback for
                             Yours Truly
                             Texts?</span>
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="answer bg-[#FAFAFA] p-4 rounded-xl mt-2">
-                        <p class="text-[14px] md:text-[16px] 2xl:text-[20px] bn-para">
+                        <p class="text-[14px] md:text-[16px] Open-sans">
                             <!-- You can share your questions or feedback through our contact
                                                                     form or customer support email. -->
                             "Please email us"
@@ -1147,12 +1125,11 @@
                 </div> -->
         </div>
         <!-- ============= -->
-        <footer class="bg-white py-8 mt-16 text-[#3A3A3A]">
-    <div class="container mx-auto px-6 md:px-16 lg:px-24 xl:px-32">
-        <div class="flex flex-col md:flex-row justify-between gap-8">
-            <!-- Logo and Contact -->
-            <div class="flex flex-col md:items-start items-center">
-            <div class="ml-6 mb-4">
+        <footer class="bg-white py-8 mt-16 md:px-[100px] bn-para text-[#3A3A3A]">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex flex-row md:flex-col space-x-6 md:space-x-2 mb-4 md:mb-0">
+                        <div class="ml-6 mb-4">
                             <svg width="52" height="52" viewBox="0 0 88 87" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <mask id="mask0_8007_2079" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
@@ -1179,83 +1156,103 @@
                                 </defs>
                             </svg>
                         </div>
-                <div class="space-y-3 text-center md:text-left">
-                    <div class="flex items-center gap-2">
-                        <svg width="30" height="30" viewBox="0 0 31 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.64 4.59C23.35 4.59 25 5.26 26.21 6.48C27.43 7.69 28.1 9.33 28.1 11.04V21.13C28.1 24.69 25.2 27.58 21.64 27.58H9.02C5.45 27.58 2.55 24.69 2.55 21.13V11.04C2.55 7.47 5.44 4.59 9.02 4.59H21.64ZM23.08 11.23C22.81 11.22 22.56 11.31 22.37 11.49L16.61 16.08C15.87 16.7 14.8 16.7 14.05 16.08L8.3 11.49C7.91 11.19 7.36 11.23 7.03 11.57C6.68 11.92 6.64 12.47 6.94 12.85L7.1 13.02L12.92 17.55C13.63 18.12 14.5 18.42 15.41 18.42C16.31 18.42 17.19 18.12 17.91 17.55L23.67 12.94L23.77 12.84C24.08 12.47 24.08 11.93 23.76 11.56C23.58 11.37 23.34 11.26 23.08 11.23Z"
-                                fill="#FFC400" />
-                        </svg>
-                        <p class="  text-[#3A3A3A]  bn-para 2xl:text-[20.44px] text-[14px]  md:text-[16px]">Help@Nur.Com</p>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <svg width="30" height="30" viewBox="0 0 31 32" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M21.6388 4.5874C23.3519 4.5874 24.9997 5.26443 26.212 6.47926C27.4255 7.69153 28.1039 9.32663 28.1039 11.0384V21.13C28.1039 24.694 25.2041 27.5809 21.6388 27.5809H9.01921C5.45393 27.5809 2.55547 24.694 2.55547 21.13V11.0384C2.55547 7.47437 5.44116 4.5874 9.01921 4.5874H21.6388ZM23.0836 11.23C22.8153 11.2159 22.5599 11.3066 22.367 11.4855L16.6071 16.0842C15.8662 16.6986 14.8046 16.6986 14.0522 16.0842L8.30385 11.4855C7.90658 11.1917 7.35729 11.23 7.02643 11.5749C6.68153 11.9198 6.64321 12.4691 6.93574 12.8523L7.10308 13.0184L12.9153 17.5532C13.6307 18.1153 14.4981 18.4219 15.4063 18.4219C16.312 18.4219 17.1947 18.1153 17.9088 17.5532L23.6712 12.9417L23.7734 12.8395C24.0787 12.4691 24.0787 11.9326 23.7593 11.5621C23.5818 11.3718 23.3378 11.2555 23.0836 11.23Z"
+                                        fill="#FFC400" />
+                                </svg>
+                                <p
+                                    class="text-[#3A3A3A]  CabinetGrotesk-800 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                                    Help@Nur.Com
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg width="30" height="30" viewBox="0 0 31 32" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M14.7309 16.5583C19.8266 21.6526 20.9826 15.759 24.2271 19.0012C27.355 22.1283 29.1528 22.7548 25.1897 26.7167C24.6933 27.1157 21.5393 31.9152 10.4552 20.8341C-0.630384 9.75167 4.16641 6.59446 4.56545 6.09819C8.53809 2.12528 9.15381 3.93352 12.2817 7.06057C15.5262 10.3041 9.63513 11.4639 14.7309 16.5583Z"
+                                        fill="#FFC400" />
+                                </svg>
+                                <p class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                                    +1 234 456 678 89
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <svg width="30" height="30" viewBox="0 0 31 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M14.73 16.56C19.83 21.65 20.98 15.76 24.23 19C27.36 22.13 29.15 22.75 25.19 26.72C24.69 27.12 21.54 31.92 10.46 20.83C-0.63 9.75 4.17 6.59 4.57 6.1C8.54 2.13 9.15 3.93 12.28 7.06C15.53 10.3 9.64 11.46 14.73 16.56Z"
-                                fill="#FFC400" />
-                        </svg>
-                        <p class=" text-[#3A3A3A] bn-para 2xl:text-[20.44px] text-[14px] md:text-[16px]">+1 234 456 678 89</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Links & Legal -->
-            <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-12 md:gap-20">
-                <div>
-                    <h3 class="bn-para text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class=" text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px] hover:text-gray-600 bn-para">Home</a></li>
-                        <li><a href="#" class="text-[#3A3A3A] 2xl:text-[20.44px] text-[14px] md:text-[16px] hover:text-gray-600 bn-para">About Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="bn-para text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-[#3A3A3A] bn-para  2xl:text-[20.44px] text-[14px] md:text-[16px] hover:text-gray-500">Terms Of Use</a></li>
-                        <li><a href="#" class="text-[#3A3A3A] bn-para  2xl:text-[20.44px] text-[14px] md:text-[16px] hover:text-gray-500">Privacy Policy</a></li>
-                        <li><a href="#" class="text-[#3A3A3A] bn-para  2xl:text-[20.44px] text-[14px] md:text-[16px] hover:text-gray-500">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Newsletter -->
-            <div class="text-center md:text-left">
-                <h3 class="bn-para text-[#3A3A3A] mb-0 md:mb-2 text-[25px] 2xl:text-[35.77px]">Newsletter</h3>
-                <p class="text-[#3A3A3A] bn-para mb-4 text-sm 2xl:text-[20.44px] text-[14px] md:text-[16px]">Stay Up To Date</p>
+                    <!--  -->
 
-                <div class="relative  max-w-[280px] ">
-                    <input type="email" placeholder="Your email" class=" py-3 px-4 pr-16 rounded-full border border-[#C7C6C6] placeholder:font-[#A8A8A8] ">
-                    <button class="bg-[#FFC400] text-[#3A3A3A] font-extrabold text-sm py-2 px-4 rounded-full absolute right-2 top-1/2 transform -translate-y-1/2"
-                        onclick="window.location.href='404-subscribe.html';">
-                        Subscribe
-                    </button>
-                </div>
-                <!--    <div class="flex items-center space-x-2 relative">
+                    <div class="flex gap-[100px] mb-4 md:mb-0">
+                        <div>
+                            <h3
+                                class=" CabinetGrotesk-800 font-extrabold text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
+                                Links
+                            </h3>
+                            <ul class="mb-1 md:space-y-2">
+                                <li>
+                                    <a class="text-[#3A3A3A] Open-sans  2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                        href="#">Home</a>
+                                </li>
+                                <li>
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                        href="#">About Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class=" CabinetGrotesk-800 text-[#3A3A3A] text-[25px] mb-2 2xl:text-[35.77px]">
+                                Legal
+                            </h3>
+                            <ul class="mb-1 md:space-y-2">
+                                <li>
+                                    <a class="text-[#3A3A3A] Open-sans  2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                        href="#">Terms Of Use</a>
+                                </li>
+                                <li>
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                        href="#">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
+                                        href="#">Cookie Policy</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="items-center text-start flex flex-col">
+                        <h3 class=" CabinetGrotesk-800 text-[#3A3A3A] mb-0 md:mb-2 text-[25px] 2xl:text-[35.77px]">
+                            Newsletter
+                        </h3>
+                        <p class="text-[#3A3A3A] Open-sans mb-4 text-sm 2xl:text-[20.44px] text-[14px] md:text-[16px]">
+                            Stay Up To Date
+                        </p>
+                        <div class="flex items-center space-x-2">
                             <input
                                 class="py-2 px-4 pr-[120px] text-[14px] rounded-full border border-gray-300 manrope w-full relative 2xl:text-[20.44px] 2xl:py-4"
                                 placeholder="Your email" type="email" />
                             <button
-                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] Open-sans py-[7px] px-[14px] rounded-full absolute  right-[44px] md:right-[120px]  
-                                2xl:font-extrabold 2xl:text-[17.88px]"
-                                onclick="window.location.href='404-subscribe.html'>
+                                class="bg-[#FFC400] text-[#3A3A3A] text-[12px] Open-sans py-[7px] px-[14px] rounded-full absolute  right-[44px] md:right-[120px] 2xl:right-[220px] 2xl:font-extrabold 2xl:text-[17.88px]"
+                                onclick="window.location.href='404-subscribe.html';">
                                 Subscribe
                             </button>
-                        </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="mt-4">
+                    <hr />
+                </div>
+                <!--  -->
+                <div class="text-center text-[9px] md:text-[12px] mt-2 sm:mt-6 text-[#3A3A3A]">
+                    <p class="2xl:text-[20.44px]">
+                        Copyright 2025 Inc. All Rights Reserved
+                    </p>
+                </div>
             </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="mt-6 border-t border-[#D9D9D9]"></div>
-
-        <!-- Copyright -->
-        <div class="text-center bn-para text-xs md:text-sm mt-4">
-            <p>&copy; Copyright 2025 Inc. All Rights Reserved</p>
-        </div>
-    </div>
-</footer>
-
-
+        </footer>
     </div>
     @push('scripts')
         <script>
