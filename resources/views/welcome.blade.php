@@ -607,18 +607,19 @@
                 </div>
 
                 <!-- Category Selection -->
-                <div>
+                <div class="select-wrapper">
                     <h1
                         class="bn-headings text-4xl text-[#3A3A3A] font-extrabold mt-24 mb-0 2xl:mb-14 2xl:text-[60px] 2xl:font-extrabold 2xl:leading-[90px] CabinetGrotesk-800">
                         "Select Daily Messages"
                     </h1>
+                    
                     <div
                         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4 text-center inter text-[#00000]">
                         @foreach ($categories as $category)
                             <label class="flex items-center space-x-2">
                                 <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                    class="form-checkbox h-5 w-5 text-gray-800 category-checkbox" disabled>
-                                <span class="text-sm md:text-lg font-medium 2xl:text-[25px]">{{ $category->name }}</span>
+                                    class="form-checkbox  form-checkbox-custom h-5 w-5 text-gray-800 category-checkbox" disabled>
+                                <span class="text-md font-medium 2xl:text-[25px] mb-1 pt-1">{{ $category->name }}</span>
                             </label>
                         @endforeach
                     </div>
