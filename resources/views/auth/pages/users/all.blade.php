@@ -5,7 +5,8 @@
             <thead>
                 <tr>
                     <th>SR#</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>e-Mail</th>
                     <th>Action</th>
                 </tr>
@@ -14,7 +15,8 @@
                 @foreach ($data['all'] as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->first_name }}</td>
+                        <td>{{ $item->last_name }}</td>
                         <td>{{ $item->email }}</td>
                         <td>
                             <a href="{{ route('users.show', $item->id) }}" title="View user detail"

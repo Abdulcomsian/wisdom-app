@@ -7,13 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ ucfirst(auth()->user()->roles[0]->name) }} {{ $pageTitle != null ? '- ' . $pageTitle : '' }}</title>
 
-    @vite(['resources/assets/sass/app.scss', 'resources/assets/js/app.js'])
+    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/assets/sass/app.scss', 'resources/assets/js/app.js']) --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tw itter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"> --}}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-
-     alpha/css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css"
-     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <link rel="stylesheet" type="text/css"
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     @isset($styles)
@@ -22,9 +24,9 @@
 </head>
 
 <body class="antialiased">
-    <div class="splash active">
+    {{-- <div class="splash active">
         <div class="splash-icon"></div>
-    </div>
+    </div> --}}
 
     <!-- Page Wrapper -->
     <div class="wrapper">

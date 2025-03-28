@@ -4,13 +4,13 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                'resources/sass/app.scss',
-                'resources/js/app.js',
-                'resources/assets/dashboard/app.scss',
-                'resources/assets/dashboard/app.js',
-            ],
+            input: ['resources/js/app.js'], // Only one entry point now
             refresh: true,
         }),
     ],
+    server: {
+        watch: {
+            usePolling: false,
+        },
+    },
 });
