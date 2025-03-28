@@ -196,7 +196,10 @@ body {
     font-family: CabinetGrotesk-800;
 }
 
-
+ html {
+    scroll-behavior: smooth;
+  }
+  
 /* --------------Carousel */
 /* @keyframes carouselAnim {
     from {
@@ -231,6 +234,20 @@ body {
         height: 234px;
     }
 }
+.select-wrapper .form-checkbox {
+    width: 15px;
+}
+#registrationForm .fa-caret-down {
+    display: none;
+}
+.select-wrapper label input[type="checkbox"] {
+    accent-color: #2b2b2b;
+}
+.select-wrapper label {
+    display: flex;
+    justify-items: center;
+    align-self: center;
+}
 
 /* ================= */
 @keyframes scroll {
@@ -252,5 +269,8 @@ body {
     transform: scale(1.05);
 }
 
+.form-checkbox-custom {
+    border: 1px solid red !important;
+}
 
 /* --------------Carousel */
