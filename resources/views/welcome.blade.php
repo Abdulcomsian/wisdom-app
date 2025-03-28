@@ -39,7 +39,7 @@
                 </h2>
             </div>
             <div class="image">
-                <img src="{{ asset('asset/images/bannerImage.png') }}" alt=""
+                <img src="{{ asset('asset/images/Conversation.png') }}" alt=""
                     class="h-[300px] md:h-[400px] 2xl:h-[550px]" />
                 {{-- <video src="{{ asset('asset/images/quote_video.mp4') }}"
                             class="h-[300px] md:h-[400px] 2xl:h-[550px]"
@@ -1144,16 +1144,18 @@
                             <ul class="mb-1 md:space-y-2">
                                 <li>
                                     <a class="text-[#3A3A3A] Open-sans  2xl:text-[20.44px] text-[14px] md:text-[16px]"
-                                        href="#">Terms Of Use</a>
+                                    href="{{ asset('asset/pdf/PRIVACY POLICY for YT.pdf') }}" target="_blank"
+                                        >Terms Of Use</a>
                                 </li>
                                 <li>
                                     <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
-                                        href="#">Privacy Policy</a>
+                                    href="{{ asset('asset/pdf/TERMS OF USE for YT.pdf') }}"  target="_blank"
+                                    >Privacy Policy</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a class="text-[#3A3A3A] Open-sans 2xl:text-[20.44px] text-[14px] md:text-[16px]"
                                         href="#">Cookie Policy</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
