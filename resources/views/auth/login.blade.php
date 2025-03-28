@@ -8,7 +8,7 @@
 <main class="flex flex-col items-center justify-center flex-1 w-full px-4">
     <div class="relative w-full max-w-md bg-[#FFC400] p-8 rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.4)]">
         <h2
-            class="sf-pro-regular  text-3xl font-semibold text-center text-[#3A3A3A] mb-6 xl:text-[40px] 2xl:text-[45px]">
+            class="sf-pro-regular italic text-3xl font-semibold text-center text-[#3A3A3A] mb-6 xl:text-[40px] 2xl:text-[45px]">
             Member Login
         </h2>
         <form class="space-y-2" action="{{ route('login') }}" method="post">
@@ -19,7 +19,7 @@
                 </label>
                 <input
                     class="w-full px-4 py-2 border border-[#3A3A3A] rounded-md placeholder-[#3A3A3A] text-[#3A3A3A] focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                    id="email" name="email" placeholder="name@gmail.com" type="email" />
+                    id="email" name="email" placeholder="Name@gmail.com" type="email" />
             </div>
 
             <!--  -->

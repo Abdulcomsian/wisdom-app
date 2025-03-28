@@ -1,7 +1,8 @@
 <nav
-class="hidden md:flex w-[90%] bg-white shadow-md flex justify-between rounded-full items-center p-1 border mx-4 my-4 md:mx-12 top-0 z-50"
+class="hidden md:flex w-[90%] 2xl:h-[76px] bg-white shadow-md flex justify-between rounded-full items-center p-1 border mx-4 my-4 md:mx-12 top-0 z-50"
 >
 <div class="pl-1">
+<a href="{{route('welcome')}}">
   <svg
     width="60"
     height="50"
@@ -64,27 +65,28 @@ class="hidden md:flex w-[90%] bg-white shadow-md flex justify-between rounded-fu
       />
     </defs>
   </svg>
+  </a>
 </div>
-    <ul class="hidden md:flex space-x-6 urbanist">
+    <ul class="hidden md:flex space-x-6 2xl:space-x-10 urbanist">
         <li>
-            <a class="text-[#FFC400] font-bold 2xl:font-medium 2xl:text-xl" href="{{ route('welcome') }}">
+            <a class="text-[#FFC400] font-bold 2xl:font-medium 2xl:text-[20px]" href="{{ route('welcome') }}">
                 Home
             </a>
         </li>
         <li>
-            <a class="text-[#3A3A3A] 2xl:text-xl" href="#"> About us </a>
+            <a class="text-[#3A3A3A] 2xl:text-[20px]" href="#about"> About us </a>
         </li>
         <li>
-            <a class="text-[#3A3A3A] 2xl:text-xl" href="#FAQ"> FAQ </a>
+            <a class="text-[#3A3A3A] 2xl:text-[20px]" href="#FAQ"> FAQ </a>
         </li>
         <li>
-            <a class="text-[#3A3A3A] font-medium 2xl:text-xl 2xl:font-semibold" href="{{ route('login') }}">
+            <a class="text-[#3A3A3A] font-medium 2xl:text-[20px] 2xl:font-semibold" href="{{ route('login') }}">
                 Member Login
             </a>
         </li>
     </ul>
 <a
-  class="bg-[#FFC400] text-white py-2 px-4 rounded-full font-bold hidden md:inline-block mr-[-20px]"
+  class="bg-[#FFC400] text-white py-2 px-4 mr-[10px] rounded-full font-bold 2xl:font-medium hidden md:inline-block urbanist 2xl:text-[23.5px]"
   href="#"
 >
   Contact Us
