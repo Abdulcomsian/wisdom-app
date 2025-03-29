@@ -6,7 +6,7 @@
 
 <nav class="w-[100%] bg-white flex justify-between items-center p-1">
     <div class="pl-1">
-        <a href="test.html">
+        <a href="{{ url('/') }}">
             <svg width="60" height="50" viewBox="0 0 88 87" fill="none" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink">
                 <mask id="mask0_8191_381" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="88"

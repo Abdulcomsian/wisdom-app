@@ -38,12 +38,7 @@ Route::get('/clear', function () {
 });
 
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect('/dashboard/');
-    }
-    return app()->call('App\Http\Controllers\FrontentController@home');
-})->name('welcome');
+Route::get('/', [FrontentController::class, 'home'])->name('welcome');
 
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('redirect.google');
 Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
