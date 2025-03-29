@@ -55,7 +55,7 @@
                     <div>
                         <button
                             class="bg-gray-800 text-white py-2 px-4 font-bold w-1/3 rounded-lg mt-3 2xl:text-xl 2xl:py-3">
-                            Update
+                            Subscribe
                         </button>
                     </div>
                 </form>

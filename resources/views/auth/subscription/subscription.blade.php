@@ -22,59 +22,59 @@
                 class="sf-pro-regular tracking-wide text-center lg:text-left text-[#3A3A3A] text-[16px] font-semibold mb-6 italic 2xl:text-[20px]">
                 Provide your payment info to begin the free trial.
             </p>
-            <form id="payment-form">
-                @csrf
-                <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                <form id="payment-form">
+                    @csrf
+                    <input type="hidden" name="plan_id" value="{{ $plan->id }}">
 
-                @foreach ($categories as $category)
-                    <input type="hidden" name="categories[]" value="{{ $category }}">
-                @endforeach
+                    @foreach ($categories as $category)
+                        <input type="hidden" name="categories[]" value="{{ $category }}">
+                    @endforeach
 
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        Card Number
-                    </label>
-                    <div id="card-number" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
-                </div>
-
-                <div class="flex space-x-4 mb-4">
-                    <div class="w-1/2">
+                    <div class="mb-4">
                         <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                            Expiration Date
+                            Card Number
                         </label>
-                        <div id="card-expiry" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                        <div id="card-number" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
                     </div>
-                    <div class="w-1/2">
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="w-1/2">
+                            <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                                Expiration Date
+                            </label>
+                            <div id="card-expiry" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                                CVV
+                            </label>
+                            <div id="card-cvc" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
                         <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                            CVV
+                            Country
                         </label>
-                        <div id="card-cvc" class="w-full px-3 py-2 border border-[#3A3A3A] rounded"></div>
+                        <input id="billing-country" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="US"
+                            type="text" />
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        Country
-                    </label>
-                    <input id="billing-country" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="US"
-                        type="text" />
-                </div>
+                    <div class="mb-4">
+                        <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
+                            ZIP Code
+                        </label>
+                        <input id="billing-zip" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="12345"
+                            type="number" />
+                    </div>
 
-                <div class="mb-4">
-                    <label class="block text-[#3A3A3A] text-[14px] pb-1 leading-[22px] 2xl:font-medium 2xl:text-[18px]">
-                        ZIP Code
-                    </label>
-                    <input id="billing-zip" class="w-full px-3 py-2 border border-[#3A3A3A] rounded" placeholder="12345"
-                        type="number" />
-                </div>
+                    <button id="submit-button" class="w-full bg-[#3A3A3A] text-white py-2 rounded font-bold">
+                        {{ auth()->user()->stripe_customer_id ? 'Subscribe' : 'Begin Free Trial' }}
+                    </button>
 
-                <button id="submit-button" class="w-full bg-[#3A3A3A] text-white py-2 rounded font-bold">
-                    {{ auth()->user()->stripe_customer_id ? 'Subscribe' : 'Begin Free Trial' }}
-                </button>
-
-                <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
-            </form>
-        </main>
+                    <div id="card-errors" role="alert" class="text-red-500 mt-2"></div>
+                </form>
+            </main>
         <div class="background-icons hidden md:block">
             <!-- 1 -->
             <div class="icon1">
@@ -549,13 +549,16 @@
                 </svg>
             </div>
         </div>
-    </header>
-
+        <input type="hidden" id="stripe_key" value="{{ config('services.stripe.key') }}">
+    
+</header>
     @endsection
     @push('scripts')
     <script src="https://js.stripe.com/v3/"></script>
         <script>
-            var stripe = Stripe("{{ env('STRIPE_KEY') }}");
+            // var stripe = document.getElementById('stripe_key').value;
+            const stripe = Stripe(document.getElementById('stripe_key').value);
+                        console.log('stripe', stripe)
             var elements = stripe.elements();
 
             // Create individual elements
