@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
 
     public function subscribe(Request $request)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $user = auth()->user();
         $plan = Plan::findOrFail($request->plan_id);
@@ -103,7 +103,7 @@ class SubscriptionController extends Controller
                 return redirect()->route('welcome')->with('error', 'Subscription ID missing.');
             }
 
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
             $subscription = $stripe->subscriptions->retrieve($subscriptionId, ['expand' => ['latest_invoice.payment_intent']]);
 
             if ($subscription->latest_invoice->payment_intent->status !== 'succeeded') {
