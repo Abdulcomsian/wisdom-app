@@ -37,7 +37,13 @@ Route::get('/clear', function () {
     return "Cleared";
 });
 
-Route::get('/', [FrontentController::class, 'home'])->name('welcome');
+
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect('/dashboard/');
+    }
+    return app()->call('App\Http\Controllers\FrontentController@home');
+})->name('welcome');
 
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('redirect.google');
 Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -52,6 +58,7 @@ Route::post('/user/signin', [LoginController::class, 'login']);
 Route::get('/user/signup', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/user/signup', [RegisterController::class, 'register']);
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
+
 
 Route::group(
     ['prefix' => "/dashboard/", "middleware" => ["auth", 'verified']],
