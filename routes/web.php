@@ -16,6 +16,7 @@ use App\Http\Controllers\User\ManageSubscriptionController;
 use App\Http\Controllers\User\ManageCategoryController;
 use App\Http\Controllers\User\ManagePlanController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\TestimonialsController;
 use App\Http\Controllers\User\UnSubscribeController;
 
 /*
@@ -106,11 +107,14 @@ Route::group(
                 });
                 Route::prefix('quotes')->name('quotes.')->controller(QuoteController::class)->group(function () {
                     Route::get('/', 'index')->name('index');
-                    Route::get('create', 'create')->name('create');
-                    Route::post('store/custom/{id}', 'storeCustomQuote')->name('store.custom');
-                    Route::post('store/ai/{id}', 'storeAiQuote')->name('store.ai');
-                    Route::get('show/{id}', 'show')->name('show');
-                    Route::get('edit/{id}', 'edit')->name('edit');
+                    Route::post('store', 'store')->name('store');
+                    Route::put('update/{id}', 'update')->name('update');
+                    Route::delete('destroy/{id}', 'destroy')->name('destroy');
+                });
+
+                Route::prefix('testimonials')->name('testimonials.')->controller(TestimonialsController::class)->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::post('store', 'store')->name('store');
                     Route::put('update/{id}', 'update')->name('update');
                     Route::delete('destroy/{id}', 'destroy')->name('destroy');
                 });

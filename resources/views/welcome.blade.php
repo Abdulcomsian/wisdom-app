@@ -792,6 +792,7 @@
             <div class="slider h-25 overflow-hidden relative w-auto">
                 <div class="slide-track flex w-[calc(300px*14)]">
 
+                    @foreach ($testimonials as $testimonial)
                     <div
                         class="carousel-focus flex items-center flex-col relative bg-[#FFC400] mx-3 2xl:pb-10 my-10 px-6 py-3 rounded-3xl shadow-xl max-w-[444px]">
                         <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] rounded-full p-2 shadow-lg -mt-9">
@@ -804,22 +805,20 @@
                         </div>
 
                         <div class="text-center mt-4">
-                            <span class="text-[#3A3A3A] font-bold text-xl mb-3 2xl:text-2xl 2xl:font-extrabold">Garry
-                                Jerde</span>
+                            <span class="text-[#3A3A3A] font-bold text-xl mb-3 2xl:text-2xl 2xl:font-extrabold">
+                                {{ $testimonial->name }}</span>
                             <p class="text-[#3A3A3A] text-[10px]">
-                                Customer Integration Representative
+                                {{ $testimonial->role }}
                             </p>
                             <p class="mt-6 text-[#3A3A3A] text-center text-xs 2xl:font-medium">
-                                Dolorem laborum necessitatibus quas quia. Quas voluptas optio
-                                asperiores officiis autem minima et delectus. Quasi sunt
-                                occaecati aut enim itaque. Incidunt aut nesciunt.
+                                {{ $testimonial->review }}
                             </p>
                         </div>
                     </div>
-
+                    @endforeach
                     <!--check 2 -->
 
-                    <div
+                    {{-- <div
                         class="carousel-focus flex items-center flex-col relative bg-[#FFC400] mx-3 my-10 px-4 py-3 rounded-3xl shadow-xl max-w-[444px]">
                         <div class="bg-[linear-gradient(45deg,#FFC400,#E8B200)] rounded-full p-2 shadow-lg -mt-9">
                             <svg width="34" height="34" viewBox="0 0 64 64" fill="none"
@@ -1029,7 +1028,7 @@
                                 omnis. Animi reiciendis quae natus.
                             </p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
