@@ -20,3 +20,9 @@
     </a>
 </li>
 
+<li class="sidebar-item {{ request()->route()->getName() == 'testimonials.index' ? 'active' : '' }}">
+    <a class="sidebar-link" href="{{ route('testimonials.index') }}">
+        <i class="align-middle me-2 fas fa-quote-left"></i> <span class="align-middle">Testimonials</span>
+    </a>
+</li>
+
